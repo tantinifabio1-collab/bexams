@@ -305,6 +305,10 @@
     .file-name { font-size: 0.75rem; color: var(--text); margin-bottom: 0.25rem; letter-spacing: 0.02em; }
     .file-meta { font-size: 0.58rem; color: var(--muted); display: flex; align-items: center; gap: 0.6rem; }
     .fm-dot { width: 2px; height: 2px; border-radius: 50%; background: var(--muted); opacity: 0.5; }
+    .year-badge { padding: 0.14rem 0.5rem; border-radius: 2px; letter-spacing: 0.05em; }
+    .year-badge.yr-old    { background: rgba(239,68,68,0.14);  color: #f87171; border: 1px solid rgba(239,68,68,0.28); }
+    .year-badge.yr-mid    { background: rgba(245,158,11,0.14); color: #fbbf24; border: 1px solid rgba(245,158,11,0.28); }
+    .year-badge.yr-recent { background: rgba(34,197,94,0.14);  color: #4ade80; border: 1px solid rgba(34,197,94,0.28); }
     .file-tags { display: none; }
     .ftag { font-size: 0.52rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.18rem 0.5rem; border-radius: 2px; }
     .ftag.new     { background: var(--green-bg);              color: var(--green);  border: 1px solid rgba(34,197,94,0.2); }
@@ -1906,16 +1910,26 @@ function retriggerAnims(parent) {
 /* ─────────────────────────────────────
    RENDER FILES
 ───────────────────────────────────── */
+function yearClass(date) {
+  const y = parseInt(String(date).match(/\d{4}/)?.[0], 10);
+  if (isNaN(y)) return '';
+  if (y >= 2010 && y <= 2019) return 'yr-old';
+  if (y >= 2020 && y <= 2023) return 'yr-mid';
+  if (y >= 2024 && y <= 2026) return 'yr-recent';
+  return '';
+}
+
 function buildFileRow(f) {
   const row = document.createElement('div');
   row.className = 'file-row';
+  const yCls = yearClass(f.date);
   row.innerHTML = `
     <div class="file-icon ${f.ext}"><span class="file-icon-label">${f.ext}</span></div>
     <div class="file-info">
       <div class="file-name">${f.name}</div>
       <div class="file-meta">
         <span>${f.size}</span><span class="fm-dot"></span>
-        <span>${f.date}</span><span class="fm-dot"></span>
+        <span class="year-badge ${yCls}">${f.date}</span><span class="fm-dot"></span>
         <span>${f.author}</span>
       </div>
     </div>
