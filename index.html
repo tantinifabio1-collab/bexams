@@ -960,7 +960,7 @@
       <div class="files-meta-row a1">
         <div class="files-count-badge"><span id="files-count">7</span> file disponibili</div>
         <div class="dl-controls">
-          <button class="dl-all-btn" id="dl-all-btn">⇩ &nbsp;Scarica Tutto</button>
+          <button class="dl-all-btn" id="dl-all-btn">⇩ &nbsp;Scarica Tutti</button>
           <div class="dl-select-bar" id="dl-select-bar">
             <label class="dl-selectall-label">
               <input type="checkbox" id="dl-select-all" class="dl-check"/>
@@ -1711,6 +1711,19 @@ const typeColors = {
    Sections: each entry has a "section" field ("Esami" | "Soluzioni" | null)
 ───────────────────────────────────── */
 const realFiles = {
+  "Bilancio 2|Generale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+      {
+        name: "Bil2 3.1 — Generale",
+        filename: "Bil2_3.1.pdf",
+        ext: "pdf", size: "—", date: "2018",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Secondo-Ano/Secondo_Semestre2/Bilancio2/Bil2_3.1.pdf",
+      }
+    ]
+  },
   "Diritto Pubblico|1° Parziale": {
     sections: ["Esami", "Soluzioni"],
     files: [
@@ -1992,7 +2005,6 @@ function buildFileRow(f) {
     <div class="file-info">
       <div class="file-name">${f.name}</div>
       <div class="file-meta">
-        <span>${f.size}</span><span class="fm-dot"></span>
         <span class="year-badge ${yCls}">${f.date}</span><span class="fm-dot"></span>
         <span>${f.author}</span>
       </div>
