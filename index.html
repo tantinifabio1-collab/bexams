@@ -88,6 +88,9 @@
     .subj-item:hover { color: var(--text); background: rgba(59,130,246,0.06); }
     .s-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); opacity: 0.35; flex-shrink: 0; transition: opacity 0.15s; }
     .subj-item:hover .s-dot { opacity: 1; }
+    .s-dot.avail-full    { background: var(--green); opacity: 0.95; box-shadow: 0 0 5px rgba(34,197,94,0.5); }
+    .s-dot.avail-partial { background: var(--amber); opacity: 0.95; box-shadow: 0 0 5px rgba(245,158,11,0.5); }
+    .s-dot.avail-none    { background: var(--red);   opacity: 0.85; box-shadow: 0 0 5px rgba(239,68,68,0.4); }
     .hint-text { margin-top: 2.5rem; font-size: 0.6rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
 
     /* ── SUBJECT PAGE ── */
@@ -2203,6 +2206,19 @@ bcSubjectLink.addEventListener('click', () => transitionTo(vSubject));
 /* ─────────────────────────────────────
    BUILD COURSE CARDS
 ───────────────────────────────────── */
+/* Availability: green = files in ALL exam types, yellow = at least one, red = none */
+function subjectAvailability(subject) {
+  const types = availableTypes(subject);
+  let withFiles = 0;
+  types.forEach(t => {
+    const d = realFiles[getFileKey(subject, t)];
+    if (d && d.files && d.files.length) withFiles++;
+  });
+  if (withFiles === 0) return 'avail-none';
+  if (withFiles === types.length) return 'avail-full';
+  return 'avail-partial';
+}
+
 data.forEach((course, i) => {
   const card = document.createElement('div');
   card.className = 'course-card';
@@ -2214,7 +2230,7 @@ data.forEach((course, i) => {
     sem.subjects.forEach(s => {
       globalIdx++;
       subjHTML += `<div class="subj-item" data-course="${course.title}" data-code="${course.code}" data-subject="${s}">
-        <div class="s-dot"></div>
+        <div class="s-dot ${subjectAvailability(s)}"></div>
         ${String(globalIdx).padStart(2,'0')} &nbsp; ${s}
       </div>`;
     });
