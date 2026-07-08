@@ -285,6 +285,59 @@
     .files-count-badge { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); padding: 0.3rem 0.8rem; border-radius: 2px; }
     .files-count-badge span { color: var(--text); }
 
+    /* ── DOWNLOAD ALL / SELECTION MODE ── */
+    .dl-controls { display: flex; align-items: center; gap: 0.6rem; }
+    .dl-all-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-bg);
+      border: 1px solid rgba(59,130,246,0.35);
+      padding: 0.35rem 0.9rem; border-radius: 2px; cursor: pointer;
+      transition: background 0.18s, border-color 0.18s;
+    }
+    .dl-all-btn:hover { background: rgba(59,130,246,0.16); border-color: rgba(59,130,246,0.6); }
+    .dl-select-bar { display: none; align-items: center; gap: 0.7rem; }
+    .dl-select-bar.on { display: flex; }
+    body.select-mode .dl-all-btn { display: none; }
+    .dl-selectall-label {
+      display: flex; align-items: center; gap: 0.45rem; cursor: pointer;
+      font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+    }
+    .dl-selectall-label:hover { color: var(--text); }
+    .dl-check {
+      appearance: none; width: 15px; height: 15px; flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.25); border-radius: 2px;
+      background: var(--surface2); cursor: pointer; position: relative;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .dl-check:checked { background: var(--accent); border-color: var(--accent); }
+    .dl-check:checked::after {
+      content: '✓'; position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; color: #fff;
+    }
+    .dl-confirm-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #fff; background: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.35rem 0.9rem; border-radius: 2px; cursor: pointer;
+      transition: opacity 0.18s;
+    }
+    .dl-confirm-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .dl-cancel-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem; color: var(--muted);
+      background: transparent; border: 1px solid var(--border);
+      padding: 0.35rem 0.6rem; border-radius: 2px; cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .dl-cancel-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
+    .file-check-wrap { display: none; align-items: center; }
+    body.select-mode .file-check-wrap { display: flex; }
+    body.select-mode .file-row { grid-template-columns: auto 2.5rem 1fr auto; }
+    body.select-mode .file-row .file-dl-btn { opacity: 0.35; pointer-events: none; }
+
 
 
     /* file list */
@@ -906,7 +959,17 @@
       <!-- files count + filters -->
       <div class="files-meta-row a1">
         <div class="files-count-badge"><span id="files-count">7</span> file disponibili</div>
-
+        <div class="dl-controls">
+          <button class="dl-all-btn" id="dl-all-btn">⇩ &nbsp;Download All</button>
+          <div class="dl-select-bar" id="dl-select-bar">
+            <label class="dl-selectall-label">
+              <input type="checkbox" id="dl-select-all" class="dl-check"/>
+              <span>Seleziona tutti</span>
+            </label>
+            <button class="dl-confirm-btn" id="dl-confirm-btn" disabled>⇩ Scarica (<span id="dl-sel-count">0</span>)</button>
+            <button class="dl-cancel-btn" id="dl-cancel-btn">✕</button>
+          </div>
+        </div>
       </div>
 
       <!-- file list -->
@@ -1924,6 +1987,7 @@ function buildFileRow(f) {
   row.className = 'file-row';
   const yCls = yearClass(f.date);
   row.innerHTML = `
+    <div class="file-check-wrap"><input type="checkbox" class="dl-check file-check" data-url="${f.url || ''}" data-filename="${f.filename || f.name + '.pdf'}"/></div>
     <div class="file-icon ${f.ext}"><span class="file-icon-label">${f.ext}</span></div>
     <div class="file-info">
       <div class="file-name">${f.name}</div>
@@ -1979,6 +2043,10 @@ function buildEmptyRow() {
 }
 
 function renderFiles(subject, type) {
+  if (document.body.classList.contains('select-mode')) {
+    document.body.classList.remove('select-mode');
+    document.getElementById('dl-select-bar').classList.remove('on');
+  }
   const data = getFilesForSubject(subject, type);
   const { files, sections } = data;
 
@@ -2003,6 +2071,72 @@ function renderFiles(subject, type) {
     }
   }
 }
+
+/* ─────────────────────────────────────
+   DOWNLOAD ALL · selection mode
+───────────────────────────────────── */
+const dlAllBtn     = document.getElementById('dl-all-btn');
+const dlSelectBar  = document.getElementById('dl-select-bar');
+const dlSelectAll  = document.getElementById('dl-select-all');
+const dlConfirmBtn = document.getElementById('dl-confirm-btn');
+const dlCancelBtn  = document.getElementById('dl-cancel-btn');
+const dlSelCount   = document.getElementById('dl-sel-count');
+
+function fileChecks() { return [...document.querySelectorAll('.file-check')]; }
+
+function updateSelCount() {
+  const checked = fileChecks().filter(c => c.checked);
+  dlSelCount.textContent = checked.length;
+  dlConfirmBtn.disabled = checked.length === 0;
+  const all = fileChecks();
+  dlSelectAll.checked = all.length > 0 && checked.length === all.length;
+}
+
+function exitSelectMode() {
+  document.body.classList.remove('select-mode');
+  dlSelectBar.classList.remove('on');
+  dlSelectAll.checked = false;
+  fileChecks().forEach(c => c.checked = false);
+  updateSelCount();
+}
+
+dlAllBtn.addEventListener('click', () => {
+  document.body.classList.add('select-mode');
+  dlSelectBar.classList.add('on');
+  updateSelCount();
+});
+
+dlCancelBtn.addEventListener('click', exitSelectMode);
+
+dlSelectAll.addEventListener('change', () => {
+  fileChecks().forEach(c => c.checked = dlSelectAll.checked);
+  updateSelCount();
+});
+
+filesList.addEventListener('change', e => {
+  if (e.target.classList.contains('file-check')) updateSelCount();
+});
+
+// prevent row click side-effects when ticking a checkbox
+filesList.addEventListener('click', e => {
+  if (e.target.classList.contains('file-check')) e.stopPropagation();
+}, true);
+
+dlConfirmBtn.addEventListener('click', () => {
+  const selected = fileChecks().filter(c => c.checked && c.dataset.url);
+  selected.forEach((c, i) => {
+    setTimeout(() => {
+      const a = document.createElement('a');
+      a.href = c.dataset.url;
+      a.download = c.dataset.filename || 'documento.pdf';
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }, i * 400); // stagger so the browser doesn't block multiple downloads
+  });
+  setTimeout(exitSelectMode, selected.length * 400 + 100);
+});
 
 
 
