@@ -290,6 +290,15 @@
 
     /* ── DOWNLOAD ALL / SELECTION MODE ── */
     .dl-controls { display: flex; align-items: center; gap: 0.6rem; }
+    .cor-filter {
+      display: flex; align-items: center; gap: 0.45rem; cursor: pointer;
+      font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem; border-radius: 2px;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .cor-filter:hover { color: var(--text); }
+    .cor-filter:has(input:checked) { color: var(--green); border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.08); }
     .dl-all-btn {
       font-family: 'DM Mono', monospace;
       font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
@@ -963,6 +972,10 @@
       <div class="files-meta-row a1">
         <div class="files-count-badge"><span id="files-count">7</span> file disponibili</div>
         <div class="dl-controls">
+          <label class="cor-filter" id="cor-filter-wrap">
+            <input type="checkbox" id="cor-filter-check" class="dl-check"/>
+            <span>Solo con correzione</span>
+          </label>
           <button class="dl-all-btn" id="dl-all-btn">⇩ &nbsp;Scarica Tutti</button>
           <div class="dl-select-bar" id="dl-select-bar">
             <label class="dl-selectall-label">
@@ -1740,6 +1753,30 @@ const realFiles = {
         tags: [], author: "BExams",
         section: "Soluzioni",
         url: "Bexams_Esami/Secondo-Ano/Secondo_Semestre2/Bilancio2/Bil2_3.2COR.pdf",
+      },
+      {
+        name: "Bil2 3.3 — Correzione ufficiale",
+        filename: "Bil2_3.3COR.pdf",
+        ext: "pdf", size: "—", date: "2017",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Secondo-Ano/Secondo_Semestre2/Bilancio2/Bil2_3.3COR.pdf",
+      },
+      {
+        name: "Bil2 3.4 — Generale",
+        filename: "Bil2_3.4.pdf",
+        ext: "pdf", size: "—", date: "2020",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Secondo-Ano/Secondo_Semestre2/Bilancio2/Bil2_3.4.pdf",
+      },
+      {
+        name: "Bil2 3.4 — Correzione ufficiale",
+        filename: "Bil2_3.4COR.pdf",
+        ext: "pdf", size: "—", date: "2020",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Secondo-Ano/Secondo_Semestre2/Bilancio2/Bil2_3.4COR.pdf",
       }
     ]
   },
@@ -2286,12 +2323,29 @@ function buildEmptyRow() {
 }
 
 function renderFiles(subject, type) {
+  lastRender = [subject, type];
   if (document.body.classList.contains('select-mode')) {
     document.body.classList.remove('select-mode');
     document.getElementById('dl-select-bar').classList.remove('on');
   }
   const data = getFilesForSubject(subject, type);
-  const { files, sections } = data;
+  let { files, sections } = data;
+
+  // "Solo con correzione": show toggle only when a Soluzioni section exists
+  const hasSol = sections && sections.includes('Soluzioni');
+  const corWrap = document.getElementById('cor-filter-wrap');
+  if (corWrap) corWrap.style.display = hasSol ? 'flex' : 'none';
+
+  if (onlyWithCor && hasSol) {
+    const baseKey = f => String(f.filename || '').replace(/COR(?=\.[^.]+$)/i, '').toLowerCase();
+    const esamiKeys = new Set(files.filter(f => f.section === 'Esami').map(baseKey));
+    const solKeys   = new Set(files.filter(f => f.section === 'Soluzioni').map(baseKey));
+    files = files.filter(f => {
+      if (f.section === 'Esami')     return solKeys.has(baseKey(f));
+      if (f.section === 'Soluzioni') return esamiKeys.has(baseKey(f));
+      return true; // other sections (e.g. Teoria) untouched
+    });
+  }
 
   filesCount.textContent = files.length;
   filesList.innerHTML = '';
@@ -2324,6 +2378,15 @@ const dlSelectAll  = document.getElementById('dl-select-all');
 const dlConfirmBtn = document.getElementById('dl-confirm-btn');
 const dlCancelBtn  = document.getElementById('dl-cancel-btn');
 const dlSelCount   = document.getElementById('dl-sel-count');
+
+/* "Solo con correzione" filter state */
+let onlyWithCor = false;
+let lastRender = null;
+const corFilterCheck = document.getElementById('cor-filter-check');
+corFilterCheck.addEventListener('change', () => {
+  onlyWithCor = corFilterCheck.checked;
+  if (lastRender) renderFiles(lastRender[0], lastRender[1]);
+});
 
 function fileChecks() { return [...document.querySelectorAll('.file-check')]; }
 
