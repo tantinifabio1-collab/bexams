@@ -361,11 +361,13 @@
     .file-icon.docx { background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.2); }
     .file-icon.pptx { background: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.2); }
     .file-icon.xlsx { background: rgba(34,197,94,0.12);  border: 1px solid rgba(34,197,94,0.2); }
+    .file-icon.zip  { background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.2); }
     .file-icon-label { font-size: 0.48rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
     .file-icon.pdf  .file-icon-label { color: #ef4444; }
     .file-icon.docx .file-icon-label { color: #3b82f6; }
     .file-icon.pptx .file-icon-label { color: #f97316; }
     .file-icon.xlsx .file-icon-label { color: #22c55e; }
+    .file-icon.zip  .file-icon-label { color: #a855f7; }
     .file-info {}
     .file-name { font-size: 0.75rem; color: var(--text); margin-bottom: 0.25rem; letter-spacing: 0.02em; }
     .file-meta { font-size: 0.58rem; color: var(--muted); display: flex; align-items: center; gap: 0.6rem; }
@@ -1709,6 +1711,61 @@ const typeColors = {
    Sections: each entry has a "section" field ("Esami" | "Soluzioni" | null)
 ───────────────────────────────────── */
 const realFiles = {
+  "Statistica|1° Parziale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+      {
+        name: "Stat 1.1 — Correzione ufficiale",
+        filename: "Stat_1.1COR.pdf",
+        ext: "pdf", size: "—", date: "2023",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Secondo-Ano/Primo_Semestre2/Stats/Stat_1.1COR.pdf",
+      }
+    ]
+  },
+  "Statistica|Generale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+      {
+        name: "Stat 3.1 — Generale",
+        filename: "Stat_3.1.zip",
+        ext: "zip", size: "—", date: "2026",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Secondo-Ano/Primo_Semestre2/Stats/Stat_3.1.zip",
+      },
+      {
+        name: "Stat 3.2 — Correzione ufficiale",
+        filename: "Stat_3.2COR.pdf",
+        ext: "pdf", size: "—", date: "2024",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Secondo-Ano/Primo_Semestre2/Stats/Stat_3.2COR.pdf",
+      }
+    ]
+  },
+  "Diritto Commerciale|1° Parziale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+      {
+        name: "DCom Domande Aperte — Primo Parziale",
+        filename: "DCom_Domande_Aperte.pdf",
+        ext: "pdf", size: "—", date: "2024",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Terzo_Anno/Secondo_Semestre3/DCom/DCom_Domande_Aperte.pdf",
+      },
+      {
+        name: "DCom Domande Aperte — Correzione ufficiale",
+        filename: "DCom_Domande_AperteCOR.pdf",
+        ext: "pdf", size: "—", date: "2024",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Terzo_Anno/Secondo_Semestre3/DCom/DCom_Domande_AperteCOR.pdf",
+      }
+    ]
+  },
   "Diritto Commerciale|2° Parziale": {
     sections: ["Domande"],
     files: [
