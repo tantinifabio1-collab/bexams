@@ -1524,24 +1524,6 @@ const subjectStructures = {
   },
   /* ══════════════════════ MARKETING ══════════════════════ */
   "Marketing": {
-    "1° Parziale": {
-      totalPts: 31, duration: "60'", nSections: 3,
-      note: "Copre la prima parte del programma.",
-      sections: [
-        { name: "Domande aperte",       pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Esercizi applicativi", pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Vero / Falso",         pts:  3, pct: 20, type: "scritto", color: "#3b82f6" },
-      ]
-    },
-    "2° Parziale": {
-      totalPts: 31, duration: "60'", nSections: 3,
-      note: "Copre la seconda parte del programma.",
-      sections: [
-        { name: "Domande aperte",         pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Casi pratici",           pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Domande a scelta mult.", pts:  3, pct: 20, type: "scritto", color: "#3b82f6" },
-      ]
-    },
     "Generale": {
       totalPts: 31, duration: "60'", nSections: 4,
       note: "Tutto il programma. Lode possibile.",
@@ -1727,6 +1709,32 @@ const typeColors = {
    Sections: each entry has a "section" field ("Esami" | "Soluzioni" | null)
 ───────────────────────────────────── */
 const realFiles = {
+  "Marketing|Generale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+      {
+        name: "Mark Test — Soluzione",
+        filename: "Mark_Test.pdf",
+        ext: "pdf", size: "—", date: "2023",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Secondo-Ano/Secondo_Semestre2/Marketing/Mark_Test.pdf",
+      }
+    ]
+  },
+  "Diritto Privato|Generale": {
+    sections: ["Domande"],
+    files: [
+      {
+        name: "DPri Domande — Raccolta domande",
+        filename: "DPri_Domande.pdf",
+        ext: "pdf", size: "—", date: "2026",
+        tags: [], author: "BExams",
+        section: "Domande",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/DPriv/DPri_Domande.pdf",
+      }
+    ]
+  },
   "Bilancio 2|2° Parziale": {
     sections: ["Esami", "Soluzioni"],
     files: [
@@ -2395,7 +2403,7 @@ function renderFiles(subject, type) {
     const solKeys   = new Set(files.filter(f => f.section === 'Soluzioni').map(baseKey));
     files = files.filter(f => {
       if (f.section === 'Esami')     return solKeys.has(baseKey(f));
-      if (f.section === 'Soluzioni') return esamiKeys.has(baseKey(f));
+      if (f.section === 'Soluzioni') return true; // corrections are self-contained: always keep
       return true; // other sections (e.g. Teoria) untouched
     });
   }
