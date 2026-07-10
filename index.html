@@ -1153,31 +1153,27 @@ const subjectStructures = {
   /* ══════════════════════ MICROECONOMIA ══════════════════════ */
   "Microeconomia": {
     "1° Parziale": {
-      totalPts: 31, duration: "60'", nSections: 3,
+      totalPts: 30, duration: "60'", nSections: 2,
       note: "Copre la prima parte del programma.",
       sections: [
-        { name: "Domande aperte",       pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Esercizi applicativi", pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Vero / Falso",         pts:  3, pct: 20, type: "scritto", color: "#3b82f6" },
+        { name: "4 Vero / Falso", pts: 16, pct: 53, type: "scritto", color: "#3b82f6" },
+        { name: "2 Esercizi",     pts: 14, pct: 47, type: "scritto", color: "#3b82f6" },
       ]
     },
     "2° Parziale": {
-      totalPts: 31, duration: "60'", nSections: 3,
+      totalPts: 30, duration: "60'", nSections: 2,
       note: "Copre la seconda parte del programma.",
       sections: [
-        { name: "Domande aperte",         pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Casi pratici",           pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Domande a scelta mult.", pts:  3, pct: 20, type: "scritto", color: "#3b82f6" },
+        { name: "4 Vero / Falso", pts: 16, pct: 53, type: "scritto", color: "#3b82f6" },
+        { name: "2 Esercizi",     pts: 14, pct: 47, type: "scritto", color: "#3b82f6" },
       ]
     },
     "Generale": {
-      totalPts: 31, duration: "90'", nSections: 4,
+      totalPts: 30, duration: "120'", nSections: 2,
       note: "Tutto il programma. Lode possibile.",
       sections: [
-        { name: "Domande aperte teoriche", pts: 12, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Esercizi e casi studio",  pts: 10, pct: 33, type: "scritto", color: "#3b82f6" },
-        { name: "Domande a scelta mult.",  pts:  5, pct: 17, type: "scritto", color: "#3b82f6" },
-        { name: "Discussione orale",       pts:  3, pct: 10, type: "scritto", color: "#3b82f6" },
+        { name: "8 Vero / Falso", pts: 16, pct: 53, type: "scritto", color: "#3b82f6" },
+        { name: "4 Esercizi",     pts: 14, pct: 47, type: "scritto", color: "#3b82f6" },
       ]
     }
   },
@@ -1711,6 +1707,61 @@ const typeColors = {
    Sections: each entry has a "section" field ("Esami" | "Soluzioni" | null)
 ───────────────────────────────────── */
 const realFiles = {
+  "Microeconomia|1° Parziale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+      {
+        name: "Micr 1.1 — Primo Parziale",
+        filename: "Micr_1.1.pdf",
+        ext: "pdf", size: "—", date: "2020",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Primo_Anno/Primo_Semestre_1/Micro/Micr_1.1.pdf",
+      },
+      {
+        name: "Micr 1.1 — Correzione ufficiale",
+        filename: "Micr_1.1COR.pdf",
+        ext: "pdf", size: "—", date: "2020",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Primo_Semestre_1/Micro/Micr_1.1COR.pdf",
+      }
+    ]
+  },
+  "Microeconomia|2° Parziale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+      {
+        name: "Micr 2.1 — Correzione ufficiale",
+        filename: "Micr_2.1COR.pdf",
+        ext: "pdf", size: "—", date: "2023",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Primo_Semestre_1/Micro/Micr_2.1COR.pdf",
+      }
+    ]
+  },
+  "Microeconomia|Generale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+      {
+        name: "Micr 3.1 — Generale",
+        filename: "Micr_3.1.pdf",
+        ext: "pdf", size: "—", date: "2017",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Primo_Anno/Primo_Semestre_1/Micro/Micr_3.1.pdf",
+      },
+      {
+        name: "Micr 3.1 — Correzione ufficiale",
+        filename: "Micr_3.1COR.pdf",
+        ext: "pdf", size: "—", date: "2017",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Primo_Semestre_1/Micro/Micr_3.1COR.pdf",
+      }
+    ]
+  },
   "Statistica|1° Parziale": {
     sections: ["Esami", "Soluzioni"],
     files: [
