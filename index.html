@@ -1176,31 +1176,24 @@ const subjectStructures = {
   /* ══════════════════════ MACROECONOMIA ══════════════════════ */
   "Macroeconomia": {
     "1° Parziale": {
-      totalPts: 31, duration: "60'", nSections: 3,
+      totalPts: 30, duration: "60'", nSections: 1,
       note: "Copre la prima parte del programma.",
       sections: [
-        { name: "Domande aperte",       pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Esercizi applicativi", pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Vero / Falso",         pts:  3, pct: 20, type: "scritto", color: "#3b82f6" },
+        { name: "4 Esercizi", pts: 30, pct: 100, type: "scritto", color: "#3b82f6" },
       ]
     },
     "2° Parziale": {
-      totalPts: 31, duration: "60'", nSections: 3,
+      totalPts: 30, duration: "60'", nSections: 1,
       note: "Copre la seconda parte del programma.",
       sections: [
-        { name: "Domande aperte",         pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Casi pratici",           pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Domande a scelta mult.", pts:  3, pct: 20, type: "scritto", color: "#3b82f6" },
+        { name: "4 Esercizi", pts: 30, pct: 100, type: "scritto", color: "#3b82f6" },
       ]
     },
     "Generale": {
-      totalPts: 31, duration: "90'", nSections: 4,
+      totalPts: 30, duration: "90'", nSections: 1,
       note: "Tutto il programma. Lode possibile.",
       sections: [
-        { name: "Domande aperte teoriche", pts: 12, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Esercizi e casi studio",  pts: 10, pct: 33, type: "scritto", color: "#3b82f6" },
-        { name: "Domande a scelta mult.",  pts:  5, pct: 17, type: "scritto", color: "#3b82f6" },
-        { name: "Discussione orale",       pts:  3, pct: 10, type: "scritto", color: "#3b82f6" },
+        { name: "6 Esercizi", pts: 30, pct: 100, type: "scritto", color: "#3b82f6" },
       ]
     }
   },
@@ -1699,6 +1692,160 @@ const typeColors = {
    Sections: each entry has a "section" field ("Esami" | "Soluzioni" | null)
 ───────────────────────────────────── */
 const realFiles = {
+  "Macroeconomia|1° Parziale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+
+      {
+        name: "Macr 1.1 — Correzione ufficiale",
+        filename: "Macr_1.1COR2019.pdf",
+        ext: "pdf", size: "—", date: "2019",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_1.1COR2019.pdf",
+      },
+      {
+        name: "Macr 1.2 — Correzione ufficiale",
+        filename: "Macr_1.2COR2022.pdf",
+        ext: "pdf", size: "—", date: "2022",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_1.2COR2022.pdf",
+      },
+      {
+        name: "Macr 1.3 — Primo Parziale",
+        filename: "Macr_1.32020.pdf",
+        ext: "pdf", size: "—", date: "2020",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_1.32020.pdf",
+      }
+    ]
+  },
+  "Macroeconomia|2° Parziale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+
+      {
+        name: "Macr 2.1 — Correzione ufficiale",
+        filename: "Macr_2.1COR2021.pdf",
+        ext: "pdf", size: "—", date: "2021",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_2.1COR2021.pdf",
+      },
+      {
+        name: "Macr 2.2 — Correzione ufficiale",
+        filename: "Macr_2.2COR2019.pdf",
+        ext: "pdf", size: "—", date: "2019",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_2.2COR2019.pdf",
+      }
+    ]
+  },
+  "Macroeconomia|Generale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+
+      {
+        name: "Macr 3.1 — Correzione ufficiale",
+        filename: "Macr_3.1COR2017.pdf",
+        ext: "pdf", size: "—", date: "2017",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.1COR2017.pdf",
+      },
+      {
+        name: "Macr 3.2 — Correzione ufficiale",
+        filename: "Macr_3.2COR2019.pdf",
+        ext: "pdf", size: "—", date: "2019",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.2COR2019.pdf",
+      },
+      {
+        name: "Macr 3.3 — Correzione ufficiale",
+        filename: "Macr_3.3COR2021.pdf",
+        ext: "pdf", size: "—", date: "2021",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.3COR2021.pdf",
+      },
+      {
+        name: "Macr 3.4 — Correzione ufficiale",
+        filename: "Macr_3.4COR2021.pdf",
+        ext: "pdf", size: "—", date: "2021",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.4COR2021.pdf",
+      },
+      {
+        name: "Macr 3.5 — Correzione ufficiale",
+        filename: "Macr_3.5COR2022.pdf",
+        ext: "pdf", size: "—", date: "2022",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.5COR2022.pdf",
+      },
+      {
+        name: "Macr 3.6 — Correzione ufficiale",
+        filename: "Macr_3.6COR2021.pdf",
+        ext: "pdf", size: "—", date: "2021",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.6COR2021.pdf",
+      },
+      {
+        name: "Macr 3.7 — Correzione ufficiale",
+        filename: "Macr_3.7COR2020.pdf",
+        ext: "pdf", size: "—", date: "2020",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.7COR2020.pdf",
+      },
+      {
+        name: "Macr 3.8 — Correzione ufficiale",
+        filename: "Macr_3.8COR2020.pdf",
+        ext: "pdf", size: "—", date: "2020",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.8COR2020.pdf",
+      },
+      {
+        name: "Macr 3.9 — Correzione ufficiale",
+        filename: "Macr_3.9COR2020.pdf",
+        ext: "pdf", size: "—", date: "2020",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.9COR2020.pdf",
+      },
+      {
+        name: "Macr 3.10 — Correzione ufficiale",
+        filename: "Macr_3.10COR2021.pdf",
+        ext: "pdf", size: "—", date: "2021",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.10COR2021.pdf",
+      },
+      {
+        name: "Macr 3.11 — Correzione ufficiale",
+        filename: "Macr_3.11COR2022.pdf",
+        ext: "pdf", size: "—", date: "2022",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.11COR2022.pdf",
+      },
+      {
+        name: "Macr 3.12 — Correzione ufficiale",
+        filename: "Macr_3.12COR2020.pdf",
+        ext: "pdf", size: "—", date: "2020",
+        tags: [], author: "BExams",
+        section: "Soluzioni",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.12COR2020.pdf",
+      }
+    ]
+  },
   "Matematica 2|1° Parziale": {
     sections: ["Esami", "Soluzioni"],
     files: [
