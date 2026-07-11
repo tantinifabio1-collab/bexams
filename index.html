@@ -1091,17 +1091,19 @@ const subjectStructures = {
   /* ══════════════════════ MATEMATICA 1 ══════════════════════ */
   "Matematica 1": {
     "1° Parziale": {
-      totalPts: 30, duration: "60'", nSections: 1,
-      note: "Copre la prima parte del programma. Voto in trentesimi.",
+      totalPts: 100, duration: "60'", nSections: 2,
+      note: "Copre la prima parte del programma. 100 punti totali, voto in trentesimi.",
       sections: [
-        { name: "Prova scritta", pts: 30, pct: 100, type: "scritto", color: "#3b82f6" },
+        { name: "Domande a scelta mult.", pts: 20, pct: 20, type: "scritto", color: "#3b82f6" },
+        { name: "Esercizi",               pts: 80, pct: 80, type: "scritto", color: "#3b82f6" },
       ]
     },
     "2° Parziale": {
-      totalPts: 30, duration: "60'", nSections: 1,
-      note: "Copre la seconda parte del programma. Voto in trentesimi.",
+      totalPts: 100, duration: "60'", nSections: 2,
+      note: "Copre la seconda parte del programma. 100 punti totali, voto in trentesimi.",
       sections: [
-        { name: "Prova scritta", pts: 30, pct: 100, type: "scritto", color: "#3b82f6" },
+        { name: "Domande a scelta mult.", pts: 20, pct: 20, type: "scritto", color: "#3b82f6" },
+        { name: "Esercizi",               pts: 80, pct: 80, type: "scritto", color: "#3b82f6" },
       ]
     },
     "Generale": {
@@ -1236,31 +1238,27 @@ const subjectStructures = {
   /* ══════════════════════ MATEMATICA 2 ══════════════════════ */
   "Matematica 2": {
     "1° Parziale": {
-      totalPts: 31, duration: "60'", nSections: 3,
-      note: "Copre la prima parte del programma.",
+      totalPts: 100, duration: "60'", nSections: 2,
+      note: "Copre la prima parte del programma. 100 punti totali, voto in trentesimi.",
       sections: [
-        { name: "Domande aperte",       pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Esercizi applicativi", pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Vero / Falso",         pts:  3, pct: 20, type: "scritto", color: "#3b82f6" },
+        { name: "Domande a scelta mult.", pts: 20, pct: 20, type: "scritto", color: "#3b82f6" },
+        { name: "Esercizi",               pts: 80, pct: 80, type: "scritto", color: "#3b82f6" },
       ]
     },
     "2° Parziale": {
-      totalPts: 31, duration: "60'", nSections: 3,
-      note: "Copre la seconda parte del programma.",
+      totalPts: 100, duration: "60'", nSections: 2,
+      note: "Copre la seconda parte del programma. 100 punti totali, voto in trentesimi.",
       sections: [
-        { name: "Domande aperte",         pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Casi pratici",           pts:  6, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Domande a scelta mult.", pts:  3, pct: 20, type: "scritto", color: "#3b82f6" },
+        { name: "Domande a scelta mult.", pts: 20, pct: 20, type: "scritto", color: "#3b82f6" },
+        { name: "Esercizi",               pts: 80, pct: 80, type: "scritto", color: "#3b82f6" },
       ]
     },
     "Generale": {
-      totalPts: 31, duration: "90'", nSections: 4,
-      note: "Tutto il programma. Lode possibile.",
+      totalPts: 100, duration: "90'", nSections: 2,
+      note: "Tutto il programma. 100 punti totali, voto finale in trentesimi.",
       sections: [
-        { name: "Domande aperte teoriche", pts: 12, pct: 40, type: "scritto", color: "#3b82f6" },
-        { name: "Esercizi e casi studio",  pts: 10, pct: 33, type: "scritto", color: "#3b82f6" },
-        { name: "Domande a scelta mult.",  pts:  5, pct: 17, type: "scritto", color: "#3b82f6" },
-        { name: "Discussione orale",       pts:  3, pct: 10, type: "scritto", color: "#3b82f6" },
+        { name: "Domande a scelta mult.", pts: 40, pct: 40, type: "scritto", color: "#3b82f6" },
+        { name: "3 Esercizi",             pts: 60, pct: 60, type: "scritto", color: "#3b82f6" },
       ]
     }
   },
@@ -1701,6 +1699,85 @@ const typeColors = {
    Sections: each entry has a "section" field ("Esami" | "Soluzioni" | null)
 ───────────────────────────────────── */
 const realFiles = {
+  "Matematica 2|1° Parziale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+      {
+        name: "Mat2 1.1 — Primo Parziale",
+        filename: "Mat2_1.1.pdf",
+        ext: "pdf", size: "—", date: "2023",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Mate2/Mat2_1.1.pdf",
+      },
+      {
+        name: "Mat2 1.2 — Primo Parziale",
+        filename: "Mat2_1.2.pdf",
+        ext: "pdf", size: "—", date: "2023",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Mate2/Mat2_1.2.pdf",
+      }
+    ]
+  },
+  "Matematica 2|2° Parziale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+      {
+        name: "Mat2 2.1 — Secondo Parziale",
+        filename: "Mat2_2.1.pdf",
+        ext: "pdf", size: "—", date: "2023",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Mate2/Mat2_2.1.pdf",
+      },
+      {
+        name: "Mat2 2.2 — Secondo Parziale",
+        filename: "Mat2_2.2.pdf",
+        ext: "pdf", size: "—", date: "2023",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Mate2/Mat2_2.2.pdf",
+      }
+    ]
+  },
+  "Matematica 2|Generale": {
+    sections: ["Esami", "Soluzioni"],
+    files: [
+      {
+        name: "Mat2 3.1 — Generale",
+        filename: "Mat2_3.1.pdf",
+        ext: "pdf", size: "—", date: "2023",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Mate2/Mat2_3.1.pdf",
+      },
+      {
+        name: "Mat2 3.2 — Generale",
+        filename: "Mat2_3.2.pdf",
+        ext: "pdf", size: "—", date: "2023",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Mate2/Mat2_3.2.pdf",
+      },
+      {
+        name: "Mat2 3.3 — Generale",
+        filename: "Mat2_3.3.pdf",
+        ext: "pdf", size: "—", date: "2023",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Mate2/Mat2_3.3.pdf",
+      },
+      {
+        name: "Mat2 3.4 — Generale",
+        filename: "Mat2_3.4.pdf",
+        ext: "pdf", size: "—", date: "2024",
+        tags: [], author: "BExams",
+        section: "Esami",
+        url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Mate2/Mat2_3.4.pdf",
+      }
+    ]
+  },
   "Matematica 1|1° Parziale": {
     sections: ["Esami", "Soluzioni"],
     files: [
