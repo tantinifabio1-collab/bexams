@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>window.BEXAMS_FIREBASE_CONFIG = null;</script>
+  <script src="/api/firebase-config"></script>
   <style>
     /*
       BExams design tokens
@@ -93,6 +95,7 @@
     .crumbs .sep { width: 14px; height: 14px; color: var(--line-2); flex-shrink: 0; }
     .crumbs .here { color: var(--ink); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .top-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .header-login { min-height: 40px; padding-inline: 16px; }
     .me { display: flex; align-items: center; gap: 10px; padding: 3px 3px 3px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); transition: border-color .15s; }
     .me:hover { border-color: var(--line-2); }
     .me:has(.me-count:empty) { padding: 3px; }
@@ -113,7 +116,7 @@
     .page-title { font-size: clamp(1.9rem, 4vw, 2.75rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.1; color: var(--navy); }
 
     /* Home */
-    .home-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 28px 56px; align-items: end; margin-bottom: 40px; }
+    .home-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 28px 56px; align-items: end; margin-bottom: 64px; }
     .hello { font-family: var(--hand); color: var(--pen); font-size: 1.9rem; line-height: 1; display: inline-block; transform: rotate(-2.5deg); transform-origin: left bottom; margin-bottom: 10px; min-height: 1em; }
     .home-title { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; color: var(--navy); max-width: 13ch; }
     .home-lede { margin-top: 16px; color: var(--muted); max-width: 54ch; font-size: 1.0625rem; }
@@ -269,13 +272,12 @@
         linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
       background-size: 22px 22px;
     }
-    .gate-card { width: min(440px, 100%); background: var(--paper); border-radius: 12px; padding: 34px 32px 28px; box-shadow: 0 30px 70px rgba(4,12,30,.35); }
+    .gate-card { position: relative; width: min(440px, 100%); background: var(--paper); border-radius: 12px; padding: 34px 32px 28px; box-shadow: 0 30px 70px rgba(4,12,30,.35); }
+    .gate-close { position: absolute; top: 14px; right: 14px; }
     .gate-logo { font-weight: 800; font-size: 2.1rem; line-height: 1; letter-spacing: -0.03em; color: var(--navy); display: inline-flex; align-items: baseline; margin: 10px 0 26px 10px; }
     .gate-body { display: none; }
     .gate[data-state="loading"] [data-when="loading"],
-    .gate[data-state="choose"]  [data-when="choose"],
-    .gate[data-state="sent"]    [data-when="sent"],
-    .gate[data-state="confirm"] [data-when="confirm"] { display: block; }
+    .gate[data-state="choose"]  [data-when="choose"] { display: block; }
     .gate h1 { font-size: 1.45rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color: var(--navy); margin-bottom: 8px; }
     .gate p { color: var(--muted); font-size: 0.9375rem; }
     .gate p b { color: var(--ink); }
@@ -290,6 +292,9 @@
     .gform .btn { height: 48px; font-size: 0.9375rem; }
     .g-err { color: var(--pen); font-size: 0.875rem; margin-top: 10px; min-height: 0; }
     .g-err:empty { display: none; }
+    .auth-switch { margin-top: 12px; text-align: center; color: var(--muted); font-size: 0.875rem; }
+    .auth-switch .linkbtn { margin-left: 4px; }
+    .guest-btn { width: 100%; margin-top: 16px; min-height: 44px; }
     .fineprint { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.8125rem !important; }
     .g-local { margin-top: 12px; font-size: 0.8125rem !important; padding: 10px 12px; background: var(--tint); border-radius: 6px; }
     .sent-mark { font-family: var(--hand); color: var(--pen); font-size: 1.6rem; display: inline-flex; align-items: center; gap: 6px; transform: rotate(-2deg); margin-bottom: 6px; }
@@ -357,15 +362,25 @@
     /* Responsive */
     @media (max-width: 960px) {
       .years { grid-template-columns: 1fr 1fr; }
-      .home-head { grid-template-columns: 1fr; }
+      .home-head { grid-template-columns: 1fr; margin-bottom: 48px; }
       .struct-body { grid-template-columns: 1fr; }
       .st-stats { flex-direction: row; flex-wrap: wrap; gap: 8px 24px; }
     }
     @media (max-width: 720px) {
-      .top-in { padding: 0 16px; gap: 12px; }
+      .top-in { height: 60px; padding: 0 14px; gap: 10px; }
+      .logo { font-size: 1.2rem; }
+      .top-actions { gap: 6px; }
+      .header-login { min-height: 38px; padding-inline: 12px; }
+      .me { padding-left: 9px; }
       .crumbs { display: none; }
-      main.wrap { padding: 28px 16px 56px; }
+      main.wrap { padding: 26px 14px 56px; }
+      .home-head { gap: 24px; margin-bottom: 38px; }
+      .home-title { font-size: clamp(2rem, 10vw, 2.65rem); max-width: 12ch; }
+      .home-lede { font-size: 1rem; }
       .years, .types, .types.n-2, .types.n-1 { grid-template-columns: 1fr; }
+      .years { gap: 16px; }
+      .year-hd { padding: 17px 18px 13px; }
+      .subj { min-height: 45px; padding: 10px 18px; }
       .type { min-height: 0; }
       .files-head { align-items: flex-start; }
       .seg { width: 100%; }
@@ -392,6 +407,20 @@
       .gate-card { padding: 28px 22px 22px; }
       .foot-in { flex-direction: column; align-items: flex-start; }
     }
+    @media (max-width: 480px) {
+      .gate { padding: 0; place-items: end stretch; }
+      .gate-card { width: 100%; max-height: 100dvh; overflow-y: auto; border-radius: 18px 18px 0 0; padding: 28px 20px max(22px, env(safe-area-inset-bottom)); }
+      .gate-logo { margin-bottom: 22px; }
+      .gform input { font-size: 16px; }
+      .files-head { gap: 16px; }
+      .pickbar { width: 100%; }
+      .pickbar > .btn { flex: 1; }
+      .acts { width: 100%; }
+      .acts .btn { min-height: 42px; }
+      .modal { width: 100vw; max-height: 100dvh; border-radius: 0; }
+      .modal-in { max-height: 100dvh; }
+      .ed-meta { grid-template-columns: 1fr; }
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
       .pen { stroke-dashoffset: 0 !important; }
@@ -409,6 +438,7 @@
     </a>
     <nav class="crumbs" id="crumbs" aria-label="Percorso"></nav>
     <div class="top-actions">
+      <button class="btn header-login" id="login-btn" type="button" hidden>Accedi</button>
       <button class="me" id="me-btn" type="button" aria-haspopup="dialog" hidden>
         <span class="me-count" id="me-count"></span>
         <span class="avatar" id="me-avatar"></span>
@@ -503,6 +533,9 @@
 <!-- ACCESSO -->
 <div class="gate" id="gate" data-state="loading" role="dialog" aria-modal="true" aria-labelledby="gate-title">
   <div class="gate-card">
+    <button class="xbtn gate-close" id="gate-close" type="button" aria-label="Chiudi accesso" hidden>
+      <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
     <div class="gate-logo" aria-hidden="true">
       <span class="logo-b">B<svg viewBox="0 0 40 40" preserveAspectRatio="none"><path class="pen" pathLength="1" d="M28 5.5C19.5 2 6.8 5.8 5.1 17 3.6 27.3 12.3 35.8 22.6 34.6 32.6 33.4 37.2 24.6 34.8 15.6 33 9 26 5.2 17.8 6.6"/></svg></span>Exams
     </div>
@@ -512,39 +545,25 @@
     </div>
 
     <div class="gate-body" data-when="choose">
-      <h1 id="gate-title">Entra con il tuo account</h1>
-      <p>Ogni file che scarichi resta segnato nel tuo archivio, così vedi subito cosa hai già fatto e da dove ripartire, anche da un altro dispositivo.</p>
+      <h1 id="gate-title">Accedi a BExams</h1>
+      <p>Con un account ritrovi su ogni dispositivo i file già scaricati. Puoi anche entrare senza account e salvare i progressi solo su questo dispositivo.</p>
       <button class="gbtn" id="g-google" type="button">
         <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A11.9 11.9 0 0 1 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
         Continua con Google
       </button>
-      <div class="or">oppure con la tua email</div>
+      <div class="or">oppure accedi con email</div>
       <form class="gform" id="g-form" novalidate>
         <label class="sr-only" for="g-email">Email</label>
         <input id="g-email" type="email" inputmode="email" autocomplete="email" placeholder="nome@studbocconi.it" required />
-        <button class="btn btn-solid" id="g-submit" type="submit">Mandami il link di accesso</button>
+        <label class="sr-only" for="g-password">Password</label>
+        <input id="g-password" type="password" autocomplete="current-password" placeholder="Password" minlength="6" required />
+        <button class="btn btn-solid" id="g-submit" type="submit">Accedi</button>
       </form>
+      <p class="auth-switch" id="g-switch-wrap"><span id="g-switch-text">Non hai ancora un account?</span><button class="linkbtn" id="g-switch" type="button">Registrati</button></p>
       <p class="g-err" id="g-err" role="alert"></p>
-      <p class="fineprint">Salviamo solo la tua email e l'elenco dei file che scarichi, per mostrarteli quando torni. Entrando accetti la <button class="linkbtn" type="button" data-legal>nota legale</button>.</p>
-      <p class="g-local" id="g-local" hidden>Anteprima locale: finché il sito non è collegato a Firebase, l'accesso con Google è spento e i dati restano in questo browser.</p>
-    </div>
-
-    <div class="gate-body" data-when="sent">
-      <p class="sent-mark"><svg class="tick draw" viewBox="0 0 24 20" aria-hidden="true"><path class="pen" pathLength="1" d="M3 11.5c2.2 1.6 3.9 3.6 5.4 6 3.1-6.6 7.4-11.6 12.6-15.5"/></svg>inviato</p>
-      <h1>Controlla la posta</h1>
-      <p>Ti abbiamo mandato un link di accesso a <b id="g-sent-to"></b>. Aprilo da questo dispositivo e sei dentro; se non lo trovi, guarda anche nella cartella spam.</p>
-      <p style="margin-top:18px"><button class="linkbtn" id="g-back" type="button">Usa un'altra email</button></p>
-    </div>
-
-    <div class="gate-body" data-when="confirm">
-      <h1>Conferma la tua email</h1>
-      <p>Hai aperto il link su un dispositivo diverso da quello in cui l'hai chiesto: riscrivi la stessa email e ti facciamo entrare.</p>
-      <form class="gform" id="g-confirm" novalidate style="margin-top:18px">
-        <label class="sr-only" for="g-email2">Email</label>
-        <input id="g-email2" type="email" inputmode="email" autocomplete="email" placeholder="nome@studbocconi.it" required />
-        <button class="btn btn-solid" type="submit">Entra</button>
-      </form>
-      <p class="g-err" id="g-err2" role="alert"></p>
+      <button class="btn guest-btn" id="g-guest" type="button">Continua senza account</button>
+      <p class="fineprint">Salviamo solo email e archivio dei download per sincronizzare i tuoi progressi. Entrando accetti la <button class="linkbtn" type="button" data-legal>nota legale</button>.</p>
+      <p class="g-local" id="g-local" hidden>Gli account online non sono ancora configurati. Puoi comunque entrare: i progressi resteranno in questo browser.</p>
     </div>
   </div>
 </div>
@@ -584,7 +603,7 @@
       <h3>Uso del materiale degli atenei</h3>
       <p>BExams <strong>non è affiliata ad alcun ateneo</strong> e non distribuisce materiale ufficiale di proprietà delle università. Le strutture degli esami sono indicative e <strong>non costituiscono documentazione ufficiale</strong>: per il programma aggiornato fai sempre riferimento al tuo docente o al portale d'ateneo.</p>
       <h3>Dati personali</h3>
-      <p>Quando entri salviamo la tua email, il tuo nome se accedi con Google e l'elenco dei file che scarichi, al solo scopo di mostrarti il tuo archivio. Puoi cancellare la cronologia in qualsiasi momento dal tuo archivio.</p>
+      <p>Se accedi con un account salviamo la tua email, il tuo nome se usi Google e l'elenco dei file che scarichi, al solo scopo di sincronizzare il tuo archivio. Se continui senza account, questi dati restano soltanto nel tuo browser. Puoi cancellare la cronologia in qualsiasi momento.</p>
       <h3>Limitazione di responsabilità</h3>
       <p>L'uso di BExams avviene sotto la <strong>piena responsabilità dell'utente</strong>. Gli autori non garantiscono l'accuratezza, la completezza o l'aggiornamento dei contenuti caricati dagli studenti e non rispondono di eventuali errori o imprecisioni nel materiale condiviso.</p>
     </div>
@@ -629,18 +648,12 @@
 /* =====================================================================
    CONFIGURAZIONE
    Incolla qui la configurazione web del tuo progetto Firebase (vedi SETUP.md).
-   Finché resta null il sito gira in "anteprima locale": si entra solo con
-   l'email, senza verifica, e i dati restano nel browser.
+   Finché resta null il sito funziona comunque in modalità locale: si può
+   entrare come ospite o con un'email e i dati restano nel browser.
    ===================================================================== */
 const CONFIG = {
-  firebase: null,
-  // firebase: {
-  //   apiKey: "...",
-  //   authDomain: "tuo-progetto.firebaseapp.com",
-  //   projectId: "tuo-progetto",
-  //   appId: "..."
-  // },
-  firebaseVersion: "10.12.2",
+  firebase: window.BEXAMS_FIREBASE_CONFIG,
+  firebaseVersion: "12.18.0",
 };
 
 /* =====================================================================
@@ -1306,8 +1319,6 @@ const realFiles = {
   "Macroeconomia|1° Parziale": {
     sections: ["Esami","Soluzioni"],
     files: [
-      { name: "Macr 1.1", kind: "Primo Parziale", filename: "Macr_1.12019.pdf", ext: "pdf", size: "", date: "2019", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_1.12019.pdf" },
-      { name: "Macr 1.2", kind: "Primo Parziale", filename: "Macr_1.22022.pdf", ext: "pdf", size: "", date: "2022", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_1.22022.pdf" },
       { name: "Macr 1.1", kind: "Correzione ufficiale", filename: "Macr_1.1COR2019.pdf", ext: "pdf", size: "179 KB", date: "2019", section: "Soluzioni", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_1.1COR2019.pdf" },
       { name: "Macr 1.2", kind: "Correzione ufficiale", filename: "Macr_1.2COR2022.pdf", ext: "pdf", size: "118 KB", date: "2022", section: "Soluzioni", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_1.2COR2022.pdf" },
       { name: "Macr 1.3", kind: "Primo Parziale", filename: "Macr_1.32020.pdf", ext: "pdf", size: "142 KB", date: "2020", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_1.32020.pdf" },
@@ -1316,8 +1327,6 @@ const realFiles = {
   "Macroeconomia|2° Parziale": {
     sections: ["Esami","Soluzioni"],
     files: [
-      { name: "Macr 2.1", kind: "Secondo Parziale", filename: "Macr_2.12021.pdf", ext: "pdf", size: "", date: "2021", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_2.12021.pdf" },
-      { name: "Macr 2.2", kind: "Secondo Parziale", filename: "Macr_2.22019.pdf", ext: "pdf", size: "", date: "2019", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_2.22019.pdf" },
       { name: "Macr 2.1", kind: "Correzione ufficiale", filename: "Macr_2.1COR2021.pdf", ext: "pdf", size: "115 KB", date: "2021", section: "Soluzioni", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_2.1COR2021.pdf" },
       { name: "Macr 2.2", kind: "Correzione ufficiale", filename: "Macr_2.2COR2019.pdf", ext: "pdf", size: "2,1 MB", date: "2019", section: "Soluzioni", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_2.2COR2019.pdf" },
     ]
@@ -1325,18 +1334,6 @@ const realFiles = {
   "Macroeconomia|Generale": {
     sections: ["Esami","Soluzioni"],
     files: [
-      { name: "Macr 3.1", kind: "Generale", filename: "Macr_3.12017.pdf", ext: "pdf", size: "", date: "2017", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.12017.pdf" },
-      { name: "Macr 3.2", kind: "Generale", filename: "Macr_3.22019.pdf", ext: "pdf", size: "", date: "2019", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.22019.pdf" },
-      { name: "Macr 3.3", kind: "Generale", filename: "Macr_3.32021.pdf", ext: "pdf", size: "", date: "2021", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.32021.pdf" },
-      { name: "Macr 3.4", kind: "Generale", filename: "Macr_3.42021.pdf", ext: "pdf", size: "", date: "2021", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.42021.pdf" },
-      { name: "Macr 3.5", kind: "Generale", filename: "Macr_3.52022.pdf", ext: "pdf", size: "", date: "2022", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.52022.pdf" },
-      { name: "Macr 3.6", kind: "Generale", filename: "Macr_3.62021.pdf", ext: "pdf", size: "", date: "2021", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.62021.pdf" },
-      { name: "Macr 3.7", kind: "Generale", filename: "Macr_3.72020.pdf", ext: "pdf", size: "", date: "2020", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.72020.pdf" },
-      { name: "Macr 3.8", kind: "Generale", filename: "Macr_3.82020.pdf", ext: "pdf", size: "", date: "2020", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.82020.pdf" },
-      { name: "Macr 3.9", kind: "Generale", filename: "Macr_3.92020.pdf", ext: "pdf", size: "", date: "2020", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.92020.pdf" },
-      { name: "Macr 3.10", kind: "Generale", filename: "Macr_3.102021.pdf", ext: "pdf", size: "", date: "2021", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.102021.pdf" },
-      { name: "Macr 3.11", kind: "Generale", filename: "Macr_3.112022.pdf", ext: "pdf", size: "", date: "2022", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.112022.pdf" },
-      { name: "Macr 3.12", kind: "Generale", filename: "Macr_3.122020.pdf", ext: "pdf", size: "", date: "2020", section: "Esami", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.122020.pdf" },
       { name: "Macr 3.1", kind: "Correzione ufficiale", filename: "Macr_3.1COR2017.pdf", ext: "pdf", size: "204 KB", date: "2017", section: "Soluzioni", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.1COR2017.pdf" },
       { name: "Macr 3.2", kind: "Correzione ufficiale", filename: "Macr_3.2COR2019.pdf", ext: "pdf", size: "199 KB", date: "2019", section: "Soluzioni", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.2COR2019.pdf" },
       { name: "Macr 3.3", kind: "Correzione ufficiale", filename: "Macr_3.3COR2021.pdf", ext: "pdf", size: "267 KB", date: "2021", section: "Soluzioni", url: "Bexams_Esami/Primo_Anno/Secondo_Semestre_1/Macro/Macr_3.3COR2021.pdf" },
@@ -1472,7 +1469,8 @@ const realFiles = {
     sections: ["Esami","Soluzioni"],
     files: [
       { name: "Stat 3.1", kind: "Generale", filename: "Stat_3.1.zip", ext: "zip", size: "3,0 MB", date: "2026", section: "Esami", url: "Bexams_Esami/Secondo-Ano/Primo_Semestre2/Stats/Stat_3.1.zip" },
-      { name: "Stat 3.2", kind: "Correzione ufficiale", filename: "Stat_3.2COR.pdf", ext: "pdf", size: "", date: "2024", section: "Soluzioni", url: "Bexams_Esami/Secondo-Ano/Primo_Semestre2/Stats/Stat_3.2COR.pdf" },
+      { name: "Stat 3.2", kind: "Generale", filename: "Stat_3.2.zip", ext: "zip", size: "3,0 MB", date: "2026", section: "Esami", url: "Bexams_Esami/Secondo-Ano/Primo_Semestre2/Stats/Stat_3.2.zip" },
+      { name: "Stat 3.3", kind: "Correzione ufficiale", filename: "Stat_3.3COR.pdf", ext: "pdf", size: "279 KB", date: "", section: "Soluzioni", url: "Bexams_Esami/Secondo-Ano/Primo_Semestre2/Stats/Stat_3.3COR.pdf" },
     ]
   },
   "Diritto Commerciale|1° Parziale": {
@@ -1546,9 +1544,7 @@ const realFiles = {
   },
   "Programmazione e controllo|1° Parziale": {
     sections: ["Esami","Teoria"],
-    files: [
-      { name: "PeC Teoria 3.5", kind: "Materiale teorico", filename: "PeC_Teoria_3.5.xlsx", ext: "xlsx", size: "198 KB", date: "2023", section: "Teoria", url: "Bexams_Esami/Secondo-Ano/Secondo_Semestre2/PeC/PeC_Teoria_3.5.xlsx" },
-    ]
+    files: []
   },
   "Programmazione e controllo|2° Parziale": {
     sections: ["Esami","Teoria"],
@@ -1559,7 +1555,6 @@ const realFiles = {
       { name: "PeC 2.4", kind: "Secondo Parziale", filename: "PeC_2.4.xlsx", ext: "xlsx", size: "450 KB", date: "2022", section: "Esami", url: "Bexams_Esami/Secondo-Ano/Secondo_Semestre2/PeC/PeC_2.4.xlsx" },
       { name: "PeC 2.5", kind: "Secondo Parziale", filename: "PeC_2.5.xlsx", ext: "xlsx", size: "556 KB", date: "2022", section: "Esami", url: "Bexams_Esami/Secondo-Ano/Secondo_Semestre2/PeC/PeC_2.5.xlsx" },
       { name: "PeC 2.6", kind: "Secondo Parziale", filename: "PeC_2.6.pdf", ext: "pdf", size: "1,7 MB", date: "2022", section: "Esami", url: "Bexams_Esami/Secondo-Ano/Secondo_Semestre2/PeC/PeC_2.6.pdf" },
-      { name: "PeC Teoria 3.5", kind: "Materiale teorico", filename: "PeC_Teoria_3.5.xlsx", ext: "xlsx", size: "198 KB", date: "2023", section: "Teoria", url: "Bexams_Esami/Secondo-Ano/Secondo_Semestre2/PeC/PeC_Teoria_3.5.xlsx" },
     ]
   },
   "Programmazione e controllo|Generale": {
@@ -1702,14 +1697,20 @@ async function probe(f) {
 const DEL = { __delete: true };
 const Account = (() => {
   const mode = CONFIG.firebase ? "cloud" : "local";
-  let fb = null, user = null, unsubDoc = null, pendingLink = null;
+  let fb = null, user = null, unsubDoc = null;
   let profile = blank();
   const subs = new Set();
 
   function blank() { return { downloads: {}, structures: {}, last: null }; }
   function emit(kind) { subs.forEach(fn => fn(kind)); }
-  function localKey() { return "bx:data:" + String(user?.email || "").toLowerCase(); }
-  function cleanUrl() { history.replaceState(null, "", location.pathname + location.hash); }
+  function isLocalUser(u = user) { return !!u?.local; }
+  function localKey() { return "bx:data:" + (user?.guest ? "guest" : String(user?.email || "guest").toLowerCase()); }
+  function savedLocalUser() {
+    const s = store.get("bx:session");
+    if (s?.guest) return { uid: "local:guest", email: "", name: "Ospite", photo: "", local: true, guest: true };
+    if (s?.email) return { uid: "local:" + s.email, email: s.email, name: "", photo: "", local: true, guest: false };
+    return null;
+  }
   function merge(target, src) {
     for (const k of Object.keys(src)) {
       const v = src[k];
@@ -1738,7 +1739,7 @@ const Account = (() => {
     if (unsubDoc) { unsubDoc(); unsubDoc = null; }
     user = u; profile = blank();
     if (!u) { emit("auth"); return; }
-    if (mode === "local") {
+    if (isLocalUser(u)) {
       profile = Object.assign(blank(), store.get(localKey()) || {});
       emit("auth"); return;
     }
@@ -1758,7 +1759,7 @@ const Account = (() => {
     if (!user) return Promise.resolve();
     merge(profile, JSON.parse(JSON.stringify(obj)));
     if (!silent) emit("data");
-    if (mode === "local") { store.set(localKey(), profile); return Promise.resolve(); }
+    if (isLocalUser()) { store.set(localKey(), profile); return Promise.resolve(); }
     store.set("bx:cache:" + user.uid, profile);
     return fb.F.setDoc(fb.F.doc(fb.db, "users", user.uid), toCloud(obj), { merge: true })
       .catch(e => { console.warn(e); toast("Non sono riuscito a salvare, riprova tra poco"); });
@@ -1766,9 +1767,8 @@ const Account = (() => {
 
   async function init() {
     if (mode === "local") {
-      const s = store.get("bx:session");
-      if (s && s.email) setUser({ uid: "local:" + s.email, email: s.email, name: "", photo: "" });
-      else emit("auth");
+      const localUser = savedLocalUser();
+      if (localUser) setUser(localUser); else emit("auth");
       return;
     }
     const base = `https://www.gstatic.com/firebasejs/${CONFIG.firebaseVersion}/`;
@@ -1778,18 +1778,15 @@ const Account = (() => {
     const app = appM.initializeApp(CONFIG.firebase);
     const auth = A.getAuth(app);
     auth.languageCode = "it";
+    await A.setPersistence(auth, A.browserLocalPersistence);
     fb = { A, F, auth, db: F.getFirestore(app) };
-    let linkError = null;
-    if (A.isSignInWithEmailLink(auth, location.href)) {
-      const email = store.get("bx:pending-email");
-      if (email) {
-        try { await A.signInWithEmailLink(auth, email, location.href); } catch (e) { linkError = e; }
-        store.del("bx:pending-email"); cleanUrl();
-      } else pendingLink = location.href;
-    }
     A.onAuthStateChanged(auth, u => {
-      setUser(u ? { uid: u.uid, email: u.email || "", name: u.displayName || "", photo: u.photoURL || "" } : null);
-      if (linkError && !u) { showGateError(explain(linkError)); linkError = null; }
+      if (u) {
+        store.del("bx:session");
+        setUser({ uid: u.uid, email: u.email || "", name: u.displayName || "", photo: u.photoURL || "", local: false, guest: false });
+      } else {
+        setUser(savedLocalUser());
+      }
     });
   }
 
@@ -1798,7 +1795,8 @@ const Account = (() => {
     subscribe(fn) { subs.add(fn); },
     get user() { return user; },
     get profile() { return profile; },
-    get pendingLink() { return pendingLink; },
+    get isGuest() { return !!user?.guest; },
+    get isLocal() { return !!user?.local; },
     downloads() { return profile.downloads || {}; },
     firstName() { return user ? (user.name ? user.name.split(" ")[0] : nameFromEmail(user.email)) : ""; },
     initials() {
@@ -1807,26 +1805,27 @@ const Account = (() => {
       return src.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase();
     },
     async google() {
+      if (!fb) throw { code: "auth/not-configured" };
       const p = new fb.A.GoogleAuthProvider();
       p.setCustomParameters({ prompt: "select_account" });
       await fb.A.signInWithPopup(fb.auth, p);
     },
-    async email(email) {
+    async email(email, password, create = false) {
       if (mode === "local") {
         store.set("bx:session", { email });
-        setUser({ uid: "local:" + email, email, name: "", photo: "" });
-        return "in";
+        setUser({ uid: "local:" + email, email, name: "", photo: "", local: true, guest: false });
+        return;
       }
-      await fb.A.sendSignInLinkToEmail(fb.auth, email, { url: location.origin + location.pathname, handleCodeInApp: true });
-      store.set("bx:pending-email", email);
-      return "sent";
+      if (create) await fb.A.createUserWithEmailAndPassword(fb.auth, email, password);
+      else await fb.A.signInWithEmailAndPassword(fb.auth, email, password);
     },
-    async confirm(email) {
-      await fb.A.signInWithEmailLink(fb.auth, email, pendingLink);
-      pendingLink = null; cleanUrl();
+    async guest() {
+      if (fb?.auth.currentUser) await fb.A.signOut(fb.auth);
+      store.set("bx:session", { guest: true });
+      setUser({ uid: "local:guest", email: "", name: "Ospite", photo: "", local: true, guest: true });
     },
     async signOut() {
-      if (mode === "local") { store.del("bx:session"); setUser(null); return; }
+      if (isLocalUser()) { store.del("bx:session"); setUser(null); return; }
       if (user) store.del("bx:cache:" + user.uid);
       await fb.A.signOut(fb.auth);
     },
@@ -1855,8 +1854,12 @@ function explain(e) {
   if (code.includes("popup-closed") || code.includes("cancelled-popup")) return "";
   if (code.includes("popup-blocked")) return "Il browser ha bloccato la finestra di Google: consenti i popup per questo sito e riprova.";
   if (code.includes("unauthorized-domain")) return `Questo indirizzo (${location.hostname}) non è ancora autorizzato in Firebase: aggiungilo in Authentication, Settings, Authorized domains.`;
+  if (code.includes("not-configured")) return "Gli account online non sono ancora configurati. Puoi continuare senza account.";
   if (code.includes("invalid-email")) return "L'indirizzo email non sembra valido, controllalo e riprova.";
-  if (code.includes("invalid-action-code") || code.includes("expired-action-code")) return "Il link di accesso è scaduto o è già stato usato: chiedine uno nuovo.";
+  if (code.includes("email-already-in-use")) return "Esiste già un account con questa email: prova ad accedere.";
+  if (code.includes("weak-password")) return "Scegli una password di almeno 6 caratteri.";
+  if (code.includes("invalid-credential") || code.includes("wrong-password") || code.includes("user-not-found")) return "Email o password non corrette.";
+  if (code.includes("too-many-requests")) return "Troppi tentativi ravvicinati: aspetta qualche minuto e riprova.";
   if (code.includes("operation-not-allowed")) return "Questo metodo di accesso non è ancora attivo in Firebase.";
   if (code.includes("network")) return "Sembra che tu sia offline: controlla la connessione e riprova.";
   return "Qualcosa non ha funzionato con l'accesso, riprova tra poco.";
@@ -1867,14 +1870,31 @@ function explain(e) {
    ===================================================================== */
 const gate = $("#gate");
 function setGate(state) { gate.dataset.state = state; }
-function showGate(on) { gate.hidden = !on; document.body.classList.toggle("gated", on); }
+function showGate(on) {
+  gate.hidden = !on;
+  document.body.classList.toggle("gated", on);
+  $("#gate-close").hidden = !Account.user;
+}
 function showGateError(msg, id = "#g-err") { $(id).textContent = msg || ""; }
 const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+let creatingAccount = false;
+
+function paintAuthMode() {
+  if (Account.mode === "local") return;
+  $("#gate-title").textContent = creatingAccount ? "Crea il tuo account" : "Accedi a BExams";
+  $("#g-submit").textContent = creatingAccount ? "Crea account" : "Accedi";
+  $("#g-switch-text").textContent = creatingAccount ? "Hai già un account?" : "Non hai ancora un account?";
+  $("#g-switch").textContent = creatingAccount ? "Accedi" : "Registrati";
+  $("#g-password").autocomplete = creatingAccount ? "new-password" : "current-password";
+}
 
 if (Account.mode === "local") {
   $("#g-google").disabled = true;
   $("#g-google").title = "Si attiva dopo aver collegato Firebase";
-  $("#g-submit").textContent = "Entra";
+  $("#g-password").hidden = true;
+  $("#g-password").required = false;
+  $("#g-switch-wrap").hidden = true;
+  $("#g-submit").textContent = "Entra con email";
   $("#g-local").hidden = false;
 }
 
@@ -1883,27 +1903,38 @@ $("#g-google").addEventListener("click", async () => {
   try { await Account.google(); } catch (e) { showGateError(explain(e)); }
 });
 
+$("#g-switch").addEventListener("click", () => {
+  creatingAccount = !creatingAccount;
+  showGateError("");
+  paintAuthMode();
+  $("#g-email").focus();
+});
+
 $("#g-form").addEventListener("submit", async e => {
   e.preventDefault();
   const email = $("#g-email").value.trim();
   if (!validEmail(email)) { showGateError("Scrivi un indirizzo email completo, per esempio nome@studbocconi.it."); $("#g-email").focus(); return; }
+  const password = $("#g-password").value;
+  if (Account.mode === "cloud" && password.length < 6) { showGateError("La password deve avere almeno 6 caratteri."); $("#g-password").focus(); return; }
   showGateError("");
   const btn = $("#g-submit"); btn.disabled = true;
   try {
-    const r = await Account.email(email);
-    if (r === "sent") { $("#g-sent-to").textContent = email; setGate("sent"); }
+    btn.textContent = creatingAccount ? "Creazione…" : "Accesso…";
+    await Account.email(email, password, creatingAccount);
   } catch (err) { showGateError(explain(err)); }
-  finally { btn.disabled = false; }
+  finally {
+    btn.disabled = false;
+    if (Account.mode === "local") btn.textContent = "Entra con email";
+    else paintAuthMode();
+  }
 });
 
-$("#g-back").addEventListener("click", () => { setGate("choose"); $("#g-email").focus(); });
-
-$("#g-confirm").addEventListener("submit", async e => {
-  e.preventDefault();
-  const email = $("#g-email2").value.trim();
-  if (!validEmail(email)) { showGateError("Scrivi l'email completa con cui hai chiesto il link.", "#g-err2"); return; }
-  try { await Account.confirm(email); } catch (err) { showGateError(explain(err), "#g-err2"); }
+$("#g-guest").addEventListener("click", async () => {
+  showGateError("");
+  try { await Account.guest(); } catch (e) { showGateError(explain(e)); }
 });
+$("#gate-close").addEventListener("click", () => { if (Account.user) showGate(false); });
+$("#login-btn").addEventListener("click", () => { setGate("choose"); showGate(true); $("#g-email").focus(); });
 
 /* =====================================================================
    ROUTING (#/m/materia/tipologia): il tasto indietro del browser funziona
@@ -2221,6 +2252,10 @@ function rowHTML(f, all, dl) {
 function findFile(id) { return packFor(route.subject.name, route.type).files.find(f => fileId(f.url) === id); }
 
 async function download(list) {
+  if (location.protocol === "file:") {
+    toast("Apri BExams da Vercel o da un server locale per scaricare i file");
+    return;
+  }
   const ok = [];
   for (const f of list) {
     if (await probe(f)) ok.push(f);
@@ -2229,7 +2264,7 @@ async function download(list) {
   if (!ok.length) { renderList(); return; }
   ok.forEach((f, i) => setTimeout(() => {
     const a = document.createElement("a");
-    a.href = encodeURI(f.url);
+    a.href = new URL(f.url, document.baseURI).href;
     a.download = f.filename || "";
     document.body.appendChild(a); a.click(); a.remove();
   }, i * 380));
@@ -2300,6 +2335,7 @@ function paintAvatar(el) {
 function updateMe() {
   const u = Account.user;
   $("#me-btn").hidden = !u;
+  $("#login-btn").hidden = !u?.local;
   if (!u) return;
   const n = Object.keys(Account.downloads()).length;
   $("#me-count").innerHTML = n ? `${TICK}${n}` : "";
@@ -2311,7 +2347,8 @@ function renderDrawer() {
   if (!u) return;
   paintAvatar($("#dr-avatar"));
   $("#dr-name").textContent = u.name || Account.firstName() || u.email;
-  $("#dr-email").textContent = u.email;
+  $("#dr-email").textContent = u.local ? "Dati salvati solo su questo dispositivo" : u.email;
+  $("#dr-out").textContent = u.guest ? "Accedi" : "Esci";
   const items = Object.values(Account.downloads()).sort((a, b) => b.at - a.at);
   const subjects = new Set(items.map(i => i.subject));
   $("#dr-sum").textContent = items.length
@@ -2338,7 +2375,11 @@ $("#dr-clear").addEventListener("click", () => {
     Account.clearHistory(); renderDrawer(); toast("Cronologia cancellata");
   }
 });
-$("#dr-out").addEventListener("click", async () => { drawer.close(); await Account.signOut(); });
+$("#dr-out").addEventListener("click", async () => {
+  drawer.close();
+  if (Account.isGuest) { setGate("choose"); showGate(true); $("#g-email").focus(); }
+  else await Account.signOut();
+});
 
 /* =====================================================================
    DIALOG: chiusura con X, con Esc e cliccando fuori
@@ -2437,7 +2478,7 @@ document.addEventListener("keydown", e => {
 Account.subscribe(kind => {
   const u = Account.user;
   if (!u) {
-    setGate(Account.pendingLink ? "confirm" : gate.dataset.state === "sent" ? "sent" : "choose");
+    setGate("choose");
     showGate(true);
     updateMe();
     return;
