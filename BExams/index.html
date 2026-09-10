@@ -149,9 +149,14 @@
 
     .years { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: start; }
     .year { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-    .year-hd { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 18px 20px 14px; border-bottom: 1px solid var(--line); }
-    .year-hd h2 { font-size: 1.125rem; font-weight: 700; color: var(--navy); }
-    .year-hd span { font-size: 0.8125rem; color: var(--muted); }
+    .year-hd { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 20px; cursor: pointer; list-style: none; user-select: none; }
+    .year-hd::-webkit-details-marker { display: none; }
+    .year-hd:focus-visible { outline: 3px solid rgba(18,38,76,.16); outline-offset: -3px; }
+    .year[open] > .year-hd { border-bottom: 1px solid var(--line); }
+    .year-title { font-size: 1.125rem; font-weight: 700; color: var(--navy); }
+    .year-summary { display: inline-flex; align-items: center; gap: 10px; font-size: 0.8125rem; color: var(--muted); }
+    .year-chevron { width: 18px; height: 18px; transition: transform .18s ease; }
+    .year[open] .year-chevron { transform: rotate(180deg); }
     .sem { padding-bottom: 8px; }
     .sem + .sem { border-top: 1px solid var(--line); }
     .sem h3 { font-size: 0.8125rem; font-weight: 600; color: var(--muted); padding: 14px 20px 4px; }
@@ -456,7 +461,7 @@
       <div>
         <p class="hello" id="hello"></p>
         <h1 class="home-title">Che esame stai preparando?</h1>
-        <p class="home-lede">Scegli la materia e trovi parziali, generali e correzioni degli anni passati. Quello che hai già scaricato resta segnato in rosso, come su un compito corretto.</p>
+        <p class="home-lede">Scegli la materia e esercitati su parziali, generali e correzioni. Quello che hai già scaricato resta segnato in rosso.</p>
       </div>
       <div class="home-tools">
         <div class="search" id="search">
@@ -1772,10 +1777,19 @@ const Account = (() => {
       return;
     }
     const base = `https://www.gstatic.com/firebasejs/${CONFIG.firebaseVersion}/`;
-    const [appM, A, F] = await Promise.all([
-      import(base + "firebase-app.js"), import(base + "firebase-auth.js"), import(base + "firebase-firestore.js")
-    ]);
+    const loads = [
+      import(base + "firebase-app.js"),
+      import(base + "firebase-auth.js"),
+      import(base + "firebase-firestore.js")
+    ];
+    if (CONFIG.firebase.measurementId) loads.push(import(base + "firebase-analytics.js"));
+    const [appM, A, F, Analytics] = await Promise.all(loads);
     const app = appM.initializeApp(CONFIG.firebase);
+    if (Analytics) {
+      Analytics.isSupported()
+        .then(supported => { if (supported) Analytics.getAnalytics(app); })
+        .catch(err => console.warn("BExams: Analytics non disponibile", err));
+    }
     const auth = A.getAuth(app);
     auth.languageCode = "it";
     await A.setPersistence(auth, A.browserLocalPersistence);
@@ -2016,8 +2030,13 @@ function renderHome() {
 
   $("#years").innerHTML = data.map(y => {
     const n = y.semesters.reduce((a, s) => a + s.subjects.length, 0);
-    return `<section class="year" aria-label="${esc(y.title)}">
-      <header class="year-hd"><h2>${esc(y.title)}</h2><span>${plural(n, "esame", "esami")}</span></header>
+    return `<details class="year">
+      <summary class="year-hd">
+        <span class="year-title">${esc(y.title)}</span>
+        <span class="year-summary"><span>${plural(n, "esame", "esami")}</span>
+          <svg class="year-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 8 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </summary>
       ${y.semesters.map(sem => `<div class="sem"><h3>${esc(sem.label)}</h3>
         ${sem.subjects.map(s => {
           const files = subjectFiles(s), mine = countMine(files);
@@ -2028,7 +2047,7 @@ function renderHome() {
           </a>`;
         }).join("")}
       </div>`).join("")}
-    </section>`;
+    </details>`;
   }).join("");
 }
 

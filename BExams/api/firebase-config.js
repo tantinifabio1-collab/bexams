@@ -4,9 +4,11 @@ module.exports = function firebaseConfig(request, response) {
     authDomain: process.env.FIREBASE_AUTH_DOMAIN || "",
     projectId: process.env.FIREBASE_PROJECT_ID || "",
     appId: process.env.FIREBASE_APP_ID || "",
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID || "",
   };
 
-  const ready = Object.values(config).every(Boolean);
+  const ready = ["apiKey", "authDomain", "projectId", "appId"]
+    .every((key) => Boolean(config[key]));
   response.setHeader("Content-Type", "application/javascript; charset=utf-8");
   response.setHeader("Cache-Control", "no-store, max-age=0");
   response.status(200).send(

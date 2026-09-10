@@ -37,7 +37,7 @@ I PDF, ZIP e file Excel resteranno su Vercel insieme al sito. Quando uno student
 2. Google Analytics non è necessario.
 3. Nella pagina principale aggiungi un'app **Web** tramite l'icona `</>`.
 4. Registra l'app senza attivare Firebase Hosting: il sito resta su Vercel.
-5. Conserva i quattro valori `apiKey`, `authDomain`, `projectId` e `appId` mostrati in `firebaseConfig`.
+5. Conserva i valori `apiKey`, `authDomain`, `projectId`, `appId` e `measurementId` mostrati in `firebaseConfig`.
 
 ## 3. Attiva l'accesso
 
@@ -86,6 +86,7 @@ In Vercel apri **Project > Settings > Environment Variables** e crea queste quat
 | `FIREBASE_AUTH_DOMAIN` | `authDomain` |
 | `FIREBASE_PROJECT_ID` | `projectId` |
 | `FIREBASE_APP_ID` | `appId` |
+| `FIREBASE_MEASUREMENT_ID` | `measurementId` |
 
 Applicale a **Production**, **Preview** e **Development**, poi apri **Deployments** e fai **Redeploy** dell'ultima versione.
 
