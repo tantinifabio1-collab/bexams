@@ -69,6 +69,17 @@
     .logo { display: inline-flex; align-items: baseline; font-weight: 800; font-size: 1.35rem; line-height: 1; letter-spacing: -0.02em; color: var(--navy); white-space: nowrap; padding: 0.25em 0 0.25em 0.22em; }
     .logo-b { position: relative; display: inline-block; line-height: 1; margin-right: 0.3em; }
     .logo-b svg { position: absolute; left: -0.34em; top: -0.25em; width: calc(100% + 0.7em); height: 1.44em; overflow: visible; pointer-events: none; }
+    .course-picker { display: flex; align-items: center; gap: 8px; padding-left: 18px; border-left: 1px solid var(--line); }
+    .course-label { color: var(--muted); font-size: 0.6875rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .course-select-shell { position: relative; display: inline-flex; align-items: center; }
+    .course-select-shell select {
+      appearance: none; height: 38px; min-width: 94px; padding: 0 32px 0 12px; border: 1px solid var(--line-2); border-radius: 999px;
+      background: var(--paper); color: var(--navy); font-size: 0.8125rem; font-weight: 800; outline: none; cursor: pointer;
+      transition: border-color .15s, box-shadow .15s, background .15s;
+    }
+    .course-select-shell select:hover { border-color: var(--navy); background: var(--tint); }
+    .course-select-shell select:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(18,38,76,.09); }
+    .course-select-shell .ico { position: absolute; right: 10px; width: 14px; height: 14px; color: var(--muted); pointer-events: none; }
 
     /* Buttons */
     .btn {
@@ -166,6 +177,9 @@
     .subj-name { flex: 1; min-width: 0; }
     .subj-count { font-size: 0.8125rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
     .subj.is-empty .subj-name, .subj.is-empty .subj-count { color: var(--faint); }
+    .subj.is-class-specific .subj-count, .q-meta.is-class-specific {
+      display: inline-block; color: var(--pen); font-family: var(--hand); font-size: 1.15rem; font-weight: 600; line-height: 1; transform: rotate(-2deg);
+    }
     .mine { display: inline-flex; align-items: center; gap: 3px; color: var(--pen); font-size: 0.8125rem; font-weight: 700; font-variant-numeric: tabular-nums; }
     .mine .tick { width: 15px; height: 13px; }
 
@@ -178,6 +192,16 @@
     .type-name { font-size: 1.3rem; font-weight: 700; color: var(--navy); letter-spacing: -0.01em; }
     .type-desc { color: var(--muted); font-size: 0.9375rem; }
     .type-foot { margin-top: auto; padding-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+
+    /* Course areas not yet published */
+    .course-wip { min-height: calc(100dvh - 210px); display: grid; place-items: center; }
+    .wip-card { position: relative; width: min(720px, 100%); padding: 54px; overflow: hidden; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 24px 60px rgba(18,38,76,.08); }
+    .wip-mark { display: inline-block; margin-bottom: 12px; color: var(--pen); font-family: var(--hand); font-size: 1.7rem; line-height: 1; transform: rotate(-2deg); }
+    .wip-course { display: inline-flex; margin-bottom: 16px; padding: 6px 11px; border-radius: 999px; background: var(--tint); color: var(--navy); font-size: 0.75rem; font-weight: 800; letter-spacing: .06em; }
+    .wip-card h1 { max-width: 13ch; color: var(--navy); font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; letter-spacing: -.035em; line-height: 1.02; }
+    .wip-copy { max-width: 56ch; margin-top: 18px; color: var(--muted); font-size: 1.0625rem; }
+    .wip-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .wip-note { margin-top: 18px; color: var(--faint); font-size: 0.8125rem; }
     .type-count { font-size: 0.875rem; font-weight: 600; }
     .type-count.is-empty { color: var(--faint); font-weight: 500; }
     .type-mine { font-size: 0.8125rem; color: var(--pen); font-weight: 600; }
@@ -387,8 +411,12 @@
       .st-stats { flex-direction: row; flex-wrap: wrap; gap: 8px 24px; }
     }
     @media (max-width: 720px) {
-      .top-in { height: 60px; padding: 0 14px; gap: 10px; }
+      .top-in { height: 60px; padding: 0 14px; gap: 8px; }
       .logo { font-size: 1.2rem; }
+      .course-picker { gap: 0; padding-left: 10px; }
+      .course-label { display: none; }
+      .course-select-shell select { min-width: 82px; height: 36px; padding: 0 27px 0 10px; font-size: 0.75rem; }
+      .course-select-shell .ico { right: 8px; }
       .top-actions { gap: 6px; }
       .header-login { min-height: 38px; padding-inline: 12px; }
       .contribute-btn { min-height: 38px; padding-inline: 10px; }
@@ -427,8 +455,14 @@
       .ed-row select { grid-column: 1 / span 2; }
       .gate-card { padding: 28px 22px 22px; }
       .foot-in { flex-direction: column; align-items: flex-start; }
+      .wip-card { padding: 36px 28px; }
     }
     @media (max-width: 480px) {
+      .logo { font-size: 1.05rem; }
+      .course-picker { padding-left: 7px; }
+      .course-select-shell select { min-width: 74px; height: 34px; padding-left: 8px; }
+      .contribute-btn { width: 38px; padding: 0; font-size: 0; }
+      .contribute-btn::before { content: "+"; font-size: 1.35rem; font-weight: 500; line-height: 1; }
       .gate { padding: 0; place-items: end stretch; }
       .gate-card { width: 100%; max-height: 100dvh; overflow-y: auto; border-radius: 18px 18px 0 0; padding: 28px 20px max(22px, env(safe-area-inset-bottom)); }
       .gate-logo { margin-bottom: 22px; }
@@ -442,6 +476,8 @@
       .modal-in { max-height: 100dvh; }
       .ed-meta { grid-template-columns: 1fr; }
       .contrib-grid { grid-template-columns: 1fr; }
+      .wip-card { padding: 32px 22px; border-radius: 10px; }
+      .wip-actions .btn { width: 100%; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
@@ -458,6 +494,15 @@
     <a class="logo" href="#/" aria-label="BExams, torna alla home">
       <span class="logo-b">B<svg viewBox="0 0 40 40" preserveAspectRatio="none" aria-hidden="true"><path class="pen" pathLength="1" d="M28 5.5C19.5 2 6.8 5.8 5.1 17 3.6 27.3 12.3 35.8 22.6 34.6 32.6 33.4 37.2 24.6 34.8 15.6 33 9 26 5.2 17.8 6.6"/></svg></span>Exams
     </a>
+    <label class="course-picker" for="course-select">
+      <span class="course-label">Corso</span>
+      <span class="course-select-shell">
+        <select id="course-select" aria-label="Seleziona il corso di laurea">
+          <option>CLEAM</option><option>BIEM</option><option>BIEF</option><option>BIG</option><option>BEMACS</option><option>BEMACC</option><option>BAI</option><option>BGL</option><option>BESS</option>
+        </select>
+        <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 8 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </label>
     <nav class="crumbs" id="crumbs" aria-label="Percorso"></nav>
     <div class="top-actions">
       <button class="btn contribute-btn" id="contribute-btn" type="button">Contribuisci</button>
@@ -494,6 +539,21 @@
       </div>
     </div>
     <div class="years" id="years"></div>
+  </section>
+
+  <!-- ALTRI CORSI: archivio in preparazione -->
+  <section class="view course-wip" id="v-course-wip" hidden>
+    <div class="wip-card">
+      <span class="wip-mark">work in progress</span><br />
+      <span class="wip-course" id="wip-course"></span>
+      <h1 id="wip-title"></h1>
+      <p class="wip-copy">We're preparing a dedicated exam archive for this degree. Each program will have its own subjects, past papers and corrections in English.</p>
+      <div class="wip-actions">
+        <button class="btn btn-solid" id="wip-contribute" type="button">Contribute an exam</button>
+        <button class="btn" id="wip-cleam" type="button">Browse CLEAM exams</button>
+      </div>
+      <p class="wip-note">You can switch program at any time from the selector next to the BExams logo.</p>
+    </div>
   </section>
 
   <!-- MATERIA: tipologie d'esame -->
@@ -738,6 +798,15 @@ const CONFIG = {
   firebase: window.BEXAMS_FIREBASE_CONFIG,
   firebaseVersion: "12.18.0",
 };
+
+const COURSE_CODES = ["CLEAM", "BIEM", "BIEF", "BIG", "BEMACS", "BEMACC", "BAI", "BGL", "BESS"];
+const CLASS_SPECIFIC_SUBJECTS = new Set(["Storia economica", "Strategia Competitiva"]);
+let activeCourse = (() => {
+  try {
+    const saved = localStorage.getItem("bx:course");
+    return COURSE_CODES.includes(saved) ? saved : "CLEAM";
+  } catch { return "CLEAM"; }
+})();
 
 /* =====================================================================
    ANNI, SEMESTRI, MATERIE
@@ -2057,15 +2126,30 @@ $("#login-btn").addEventListener("click", () => { setGate("choose"); showGate(tr
    ROUTING (#/m/materia/tipologia): il tasto indietro del browser funziona
    e ogni pagina ha un link che si può condividere.
    ===================================================================== */
-const views = { home: $("#v-home"), subject: $("#v-subject"), files: $("#v-files") };
+const views = { home: $("#v-home"), course: $("#v-course-wip"), subject: $("#v-subject"), files: $("#v-files") };
 let route = { name: "home" };
 let focusAfterRender = null;
 let justDownloaded = new Set();
+const courseSelect = $("#course-select");
+courseSelect.value = activeCourse;
+
+function selectCourse(course) {
+  activeCourse = COURSE_CODES.includes(course) ? course : "CLEAM";
+  courseSelect.value = activeCourse;
+  try { localStorage.setItem("bx:course", activeCourse); } catch {}
+  if (location.hash !== "#/") location.hash = "#/";
+  else render(true);
+}
+
+courseSelect.addEventListener("change", e => selectCourse(e.target.value));
+$("#wip-cleam").addEventListener("click", () => selectCourse("CLEAM"));
+$("#wip-contribute").addEventListener("click", () => openContribution());
 
 const hrefSubject = s => `#/m/${BY_NAME[s].slug}`;
 const hrefFiles = (s, t) => `#/m/${BY_NAME[s].slug}/${TYPE_SLUG[t]}`;
 
 function parseHash() {
+  if (activeCourse !== "CLEAM") return { name: "course" };
   const p = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
   if (p[0] === "m" && BY_SLUG[p[1]]) {
     const subject = BY_SLUG[p[1]];
@@ -2089,22 +2173,30 @@ function render(scroll) {
   });
   if (changedPage) { resetFileState(); if (scroll) window.scrollTo(0, 0); }
   if (route.name === "home") renderHome();
+  if (route.name === "course") renderCourseWip();
   if (route.name === "subject") renderSubject();
   if (route.name === "files") renderFiles();
   renderCrumbs();
-  document.title = route.name === "home" ? "BExams" : route.name === "subject" ? `${route.subject.name}, BExams` : `${route.subject.name}, ${route.type}, BExams`;
+  $("#contribute-btn").textContent = activeCourse === "CLEAM" ? "Contribuisci" : "Contribute";
+  document.title = route.name === "home" ? "BExams, CLEAM" : route.name === "course" ? `${activeCourse}, BExams` : route.name === "subject" ? `${route.subject.name}, BExams` : `${route.subject.name}, ${route.type}, BExams`;
 }
 window.addEventListener("hashchange", () => render(true));
 
 function renderCrumbs() {
   const c = $("#crumbs");
-  if (route.name === "home") { c.innerHTML = ""; return; }
+  if (route.name === "home" || route.name === "course") { c.innerHTML = ""; return; }
   const s = route.subject;
   const parts = [`<a href="#/">${esc(s.yearTitle)}</a>`];
   if (route.name === "subject") parts.push(`<span class="here">${esc(s.name)}</span>`);
   else if (typesFor(s.name).length === 1) parts.push(`<span class="here">${esc(s.name)}</span>`);
   else parts.push(`<a href="${hrefSubject(s.name)}">${esc(s.name)}</a>`, `<span class="here">${esc(route.type)}</span>`);
   c.innerHTML = parts.join(SEP_ICON);
+}
+
+function renderCourseWip() {
+  $("#wip-course").textContent = activeCourse;
+  $("#wip-title").textContent = `${activeCourse} is coming soon.`;
+  $("#wip-contribute").textContent = `Contribute to ${activeCourse}`;
 }
 
 /* =====================================================================
@@ -2143,10 +2235,11 @@ function renderHome() {
       ${y.semesters.map(sem => `<div class="sem"><h3>${esc(sem.label)}</h3>
         ${sem.subjects.map(s => {
           const files = subjectFiles(s), mine = countMine(files);
-          return `<a class="subj${files.length ? "" : " is-empty"}" href="${hrefSubject(s)}">
+          const classSpecific = CLASS_SPECIFIC_SUBJECTS.has(s) && !files.length;
+          return `<a class="subj${files.length ? "" : " is-empty"}${classSpecific ? " is-class-specific" : ""}" href="${hrefSubject(s)}">
             <span class="subj-name">${esc(s)}</span>
             ${mine ? `<span class="mine" title="${plural(mine, "file scaricato", "file scaricati")}">${TICK}${mine}</span>` : ""}
-            <span class="subj-count">${files.length ? plural(files.length, "file", "file") : "in arrivo"}</span>
+            <span class="subj-count">${files.length ? plural(files.length, "file", "file") : classSpecific ? "class specific" : "in arrivo"}</span>
           </a>`;
         }).join("")}
       </div>`).join("")}
@@ -2177,9 +2270,10 @@ function paintResults() {
   if (qIndex >= qMatches.length) qIndex = qMatches.length - 1;
   qr.innerHTML = qMatches.length
     ? qMatches.map((s, i) => {
-        const n = subjectFiles(s.name).length;
-        return `<li role="option" id="qo-${i}" data-slug="${s.slug}" aria-selected="${i === qIndex}">
-          <span class="q-name">${esc(s.name)}</span><span class="q-meta">${esc(s.yearTitle)}, ${n ? plural(n, "file", "file") : "in arrivo"}</span></li>`;
+      const n = subjectFiles(s.name).length;
+      const classSpecific = CLASS_SPECIFIC_SUBJECTS.has(s.name) && !n;
+      return `<li role="option" id="qo-${i}" data-slug="${s.slug}" aria-selected="${i === qIndex}">
+          <span class="q-name">${esc(s.name)}</span><span class="q-meta${classSpecific ? " is-class-specific" : ""}">${esc(s.yearTitle)}, ${n ? plural(n, "file", "file") : classSpecific ? "class specific" : "in arrivo"}</span></li>`;
       }).join("")
     : `<li class="q-empty">Nessuna materia trovata per "${esc(text)}". Prova con il nome del corso.</li>`;
   qr.hidden = false;
@@ -2518,6 +2612,7 @@ function openContribution() {
     return;
   }
   $("#co-form").reset();
+  $("#co-course").value = activeCourse;
   contributionStatus("");
   contribute.showModal();
   $("#co-course").focus();
@@ -2645,7 +2740,7 @@ function toast(msg, pen = false) {
 /* Tasto "/" per cercare, da qualsiasi pagina */
 document.addEventListener("keydown", e => {
   const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName) || document.activeElement?.isContentEditable;
-  if (e.key === "/" && !typing && gate.hidden && !document.querySelector("dialog[open]")) {
+  if (e.key === "/" && activeCourse === "CLEAM" && !typing && gate.hidden && !document.querySelector("dialog[open]")) {
     e.preventDefault();
     if (route.name !== "home") location.hash = "#/";
     setTimeout(() => q.focus(), route.name === "home" ? 0 : 60);
