@@ -96,6 +96,7 @@
     .crumbs .here { color: var(--ink); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .top-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
     .header-login { min-height: 40px; padding-inline: 16px; }
+    .contribute-btn { min-height: 40px; }
     .me { display: flex; align-items: center; gap: 10px; padding: 3px 3px 3px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); transition: border-color .15s; }
     .me:hover { border-color: var(--line-2); }
     .me:has(.me-count:empty) { padding: 3px; }
@@ -295,10 +296,15 @@
     .gform input { height: 48px; padding: 0 14px; border: 1px solid var(--line-2); border-radius: 8px; outline: none; font-size: 1rem; transition: border-color .15s, box-shadow .15s; }
     .gform input:focus { border-color: var(--navy); box-shadow: 0 0 0 4px rgba(18,38,76,.08); }
     .gform .btn { height: 48px; font-size: 0.9375rem; }
+    .password-wrap { position: relative; }
+    .password-wrap input { width: 100%; padding-right: 72px; }
+    .password-toggle { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); color: var(--muted); font-size: 0.8125rem; font-weight: 600; }
+    .password-toggle:hover { color: var(--navy); }
+    .auth-help { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-top: 2px; }
+    .auth-help small { color: var(--muted); font-size: 0.75rem; line-height: 1.45; }
+    .auth-help .linkbtn { flex-shrink: 0; font-size: 0.75rem; }
     .g-err { color: var(--pen); font-size: 0.875rem; margin-top: 10px; min-height: 0; }
     .g-err:empty { display: none; }
-    .auth-switch { margin-top: 12px; text-align: center; color: var(--muted); font-size: 0.875rem; }
-    .auth-switch .linkbtn { margin-left: 4px; }
     .guest-btn { width: 100%; margin-top: 16px; min-height: 44px; }
     .fineprint { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.8125rem !important; }
     .g-local { margin-top: 12px; font-size: 0.8125rem !important; padding: 10px 12px; background: var(--tint); border-radius: 6px; }
@@ -350,9 +356,18 @@
     .ed-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
     .field { display: flex; flex-direction: column; gap: 6px; }
     .field label, .ed-label { font-size: 0.8125rem; font-weight: 600; color: var(--muted); }
-    .field input, .field textarea, .ed-row input, .ed-row select { width: 100%; border: 1px solid var(--line-2); border-radius: 6px; padding: 8px 10px; background: var(--paper); outline: none; font-size: 0.9375rem; }
-    .field input:focus, .field textarea:focus, .ed-row input:focus, .ed-row select:focus { border-color: var(--navy); }
+    .field input, .field textarea, .field select, .ed-row input, .ed-row select { width: 100%; border: 1px solid var(--line-2); border-radius: 6px; padding: 8px 10px; background: var(--paper); outline: none; font-size: 0.9375rem; }
+    .field input:focus, .field textarea:focus, .field select:focus, .ed-row input:focus, .ed-row select:focus { border-color: var(--navy); }
     .field textarea { resize: vertical; min-height: 60px; }
+    .contrib-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .contrib-grid .wide { grid-column: 1 / -1; }
+    .upload-box { border: 1px dashed var(--line-2); border-radius: 8px; padding: 14px; background: var(--tint); }
+    .upload-box input { padding: 0; border: 0; background: transparent; }
+    .upload-box small, .contrib-note { color: var(--muted); font-size: 0.75rem; }
+    .contrib-check { display: flex; align-items: flex-start; gap: 9px; font-size: 0.8125rem; color: var(--muted); cursor: pointer; }
+    .contrib-check input { margin-top: 3px; flex-shrink: 0; }
+    .contrib-status { min-height: 0; color: var(--pen); font-size: 0.875rem; }
+    .contrib-status:empty { display: none; }
     .ed-sections { display: flex; justify-content: space-between; align-items: center; margin: 18px 0 8px; }
     .ed-row { display: grid; grid-template-columns: minmax(0,1fr) 80px 130px 36px; gap: 8px; align-items: center; margin-bottom: 8px; }
     .ed-head { font-size: 0.75rem; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
@@ -376,6 +391,7 @@
       .logo { font-size: 1.2rem; }
       .top-actions { gap: 6px; }
       .header-login { min-height: 38px; padding-inline: 12px; }
+      .contribute-btn { min-height: 38px; padding-inline: 10px; }
       .me { padding-left: 9px; }
       .crumbs { display: none; }
       main.wrap { padding: 26px 14px 56px; }
@@ -425,6 +441,7 @@
       .modal { width: 100vw; max-height: 100dvh; border-radius: 0; }
       .modal-in { max-height: 100dvh; }
       .ed-meta { grid-template-columns: 1fr; }
+      .contrib-grid { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
@@ -443,6 +460,7 @@
     </a>
     <nav class="crumbs" id="crumbs" aria-label="Percorso"></nav>
     <div class="top-actions">
+      <button class="btn contribute-btn" id="contribute-btn" type="button">Contribuisci</button>
       <button class="btn header-login" id="login-btn" type="button" hidden>Accedi</button>
       <button class="me" id="me-btn" type="button" aria-haspopup="dialog" hidden>
         <span class="me-count" id="me-count"></span>
@@ -560,11 +578,17 @@
       <form class="gform" id="g-form" novalidate>
         <label class="sr-only" for="g-email">Email</label>
         <input id="g-email" type="email" inputmode="email" autocomplete="email" placeholder="nome@studbocconi.it" required />
-        <label class="sr-only" for="g-password">Password</label>
-        <input id="g-password" type="password" autocomplete="current-password" placeholder="Password" minlength="6" required />
-        <button class="btn btn-solid" id="g-submit" type="submit">Accedi</button>
+        <div class="password-wrap" id="g-password-wrap">
+          <label class="sr-only" for="g-password">Password</label>
+          <input id="g-password" type="password" autocomplete="current-password" placeholder="Password (almeno 6 caratteri)" minlength="6" required />
+          <button class="linkbtn password-toggle" id="g-password-toggle" type="button" aria-label="Mostra password">Mostra</button>
+        </div>
+        <button class="btn btn-solid" id="g-submit" type="submit">Continua con email</button>
       </form>
-      <p class="auth-switch" id="g-switch-wrap"><span id="g-switch-text">Non hai ancora un account?</span><button class="linkbtn" id="g-switch" type="button">Registrati</button></p>
+      <div class="auth-help" id="g-auth-help">
+        <small>È la prima volta? L'account viene creato automaticamente.</small>
+        <button class="linkbtn" id="g-reset" type="button">Password dimenticata?</button>
+      </div>
       <p class="g-err" id="g-err" role="alert"></p>
       <button class="btn guest-btn" id="g-guest" type="button">Continua senza account</button>
       <p class="fineprint">Salviamo solo email e archivio dei download per sincronizzare i tuoi progressi. Entrando accetti la <button class="linkbtn" type="button" data-legal>nota legale</button>.</p>
@@ -593,6 +617,60 @@
   </div>
 </dialog>
 
+<!-- CONTRIBUISCI -->
+<dialog class="modal" id="contribute" aria-labelledby="co-title">
+  <form class="modal-in" id="co-form" novalidate>
+    <div class="modal-hd">
+      <div><h2 id="co-title">Contribuisci a BExams</h2><p>Invia un esame, una correzione oppure informazioni utili.</p></div>
+      <button class="xbtn" type="button" data-close aria-label="Chiudi"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="modal-bd">
+      <div class="contrib-grid">
+        <div class="field">
+          <label for="co-course">Corso</label>
+          <select id="co-course" required>
+            <option value="">Scegli il corso</option>
+            <option>CLEAM</option><option>BIEM</option><option>BIEF</option><option>BIG</option><option>BEMACS</option><option>BEMACC</option><option>BAI</option><option>BGL</option><option>BESS</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="co-year">Anno</label>
+          <select id="co-year" required>
+            <option value="">Scegli l'anno</option>
+            <option value="1">Primo anno</option><option value="2">Secondo anno</option><option value="3">Terzo anno</option><option value="altro">Altro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="co-subject">Materia</label>
+          <input id="co-subject" type="text" maxlength="100" placeholder="Per esempio: Microeconomia" required />
+        </div>
+        <div class="field">
+          <label for="co-type">Tipo di contributo</label>
+          <select id="co-type" required>
+            <option value="">Scegli il tipo</option>
+            <option>1° Parziale</option><option>2° Parziale</option><option>Generale</option><option>Correzione</option><option>Altro</option>
+          </select>
+        </div>
+        <div class="field wide">
+          <label for="co-note">Scrivi informazioni utili</label>
+          <textarea id="co-note" maxlength="1500" rows="4" placeholder="Anno dell'esame, docente, struttura, domande ricordate o altre note..."></textarea>
+        </div>
+        <div class="field wide upload-box">
+          <label for="co-file">Allega un file (facoltativo)</label>
+          <input id="co-file" type="file" accept=".pdf,.zip,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" />
+          <small>PDF, ZIP, Word, Excel o immagine; massimo 4 MB. Puoi contribuire anche scrivendo soltanto le informazioni sopra.</small>
+        </div>
+        <label class="contrib-check wide"><input id="co-rights" type="checkbox" required /><span>Confermo di poter condividere questo materiale e che non contiene dati personali o contenuti protetti senza autorizzazione.</span></label>
+        <p class="contrib-status wide" id="co-status" role="alert"></p>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn" type="button" data-close>Annulla</button>
+      <button class="btn btn-solid" id="co-submit" type="submit">Invia contributo</button>
+    </div>
+  </form>
+</dialog>
+
 <!-- NOTA LEGALE -->
 <dialog class="modal" id="legal" aria-labelledby="legal-title">
   <div class="modal-in">
@@ -608,7 +686,7 @@
       <h3>Uso del materiale degli atenei</h3>
       <p>BExams <strong>non è affiliata ad alcun ateneo</strong> e non distribuisce materiale ufficiale di proprietà delle università. Le strutture degli esami sono indicative e <strong>non costituiscono documentazione ufficiale</strong>: per il programma aggiornato fai sempre riferimento al tuo docente o al portale d'ateneo.</p>
       <h3>Dati personali</h3>
-      <p>Se accedi con un account salviamo la tua email, il tuo nome se usi Google e l'elenco dei file che scarichi, al solo scopo di sincronizzare il tuo archivio. Se continui senza account, questi dati restano soltanto nel tuo browser. Puoi cancellare la cronologia in qualsiasi momento.</p>
+      <p>Se accedi con un account salviamo la tua email, il tuo nome se usi Google e l'elenco dei file che scarichi, al solo scopo di sincronizzare il tuo archivio. Se invii un contributo, conserviamo anche il materiale, le informazioni inserite e l'email dell'autore in un archivio privato per poterlo controllare prima della pubblicazione. Se continui senza account, i progressi restano soltanto nel tuo browser. Puoi cancellare la cronologia in qualsiasi momento.</p>
       <h3>Limitazione di responsabilità</h3>
       <p>L'uso di BExams avviene sotto la <strong>piena responsabilità dell'utente</strong>. Gli autori non garantiscono l'accuratezza, la completezza o l'aggiornamento dei contenuti caricati dagli studenti e non rispondono di eventuali errori o imprecisioni nel materiale condiviso.</p>
     </div>
@@ -1824,14 +1902,34 @@ const Account = (() => {
       p.setCustomParameters({ prompt: "select_account" });
       await fb.A.signInWithPopup(fb.auth, p);
     },
-    async email(email, password, create = false) {
+    async email(email, password) {
       if (mode === "local") {
         store.set("bx:session", { email });
         setUser({ uid: "local:" + email, email, name: "", photo: "", local: true, guest: false });
-        return;
+        return "local";
       }
-      if (create) await fb.A.createUserWithEmailAndPassword(fb.auth, email, password);
-      else await fb.A.signInWithEmailAndPassword(fb.auth, email, password);
+      try {
+        await fb.A.signInWithEmailAndPassword(fb.auth, email, password);
+        return "signed-in";
+      } catch (signInError) {
+        const canBeNew = ["auth/invalid-credential", "auth/user-not-found"].includes(signInError?.code);
+        if (!canBeNew) throw signInError;
+        try {
+          await fb.A.createUserWithEmailAndPassword(fb.auth, email, password);
+          return "created";
+        } catch (createError) {
+          if (createError?.code === "auth/email-already-in-use") throw signInError;
+          throw createError;
+        }
+      }
+    },
+    async resetPassword(email) {
+      if (!fb) throw { code: "auth/not-configured" };
+      await fb.A.sendPasswordResetEmail(fb.auth, email);
+    },
+    async token() {
+      if (!fb?.auth.currentUser || isLocalUser()) return "";
+      return fb.auth.currentUser.getIdToken();
     },
     async guest() {
       if (fb?.auth.currentUser) await fb.A.signOut(fb.auth);
@@ -1865,14 +1963,15 @@ const Account = (() => {
 
 function explain(e) {
   const code = (e && e.code) || "";
-  if (code.includes("popup-closed") || code.includes("cancelled-popup")) return "";
+  if (code.includes("popup-closed") || code.includes("cancelled-popup")) return "La finestra Google si è chiusa prima di completare l'accesso. Riprova e scegli un account.";
   if (code.includes("popup-blocked")) return "Il browser ha bloccato la finestra di Google: consenti i popup per questo sito e riprova.";
-  if (code.includes("unauthorized-domain")) return `Questo indirizzo (${location.hostname}) non è ancora autorizzato in Firebase: aggiungilo in Authentication, Settings, Authorized domains.`;
+  if (code.includes("unauthorized-domain")) return "";
   if (code.includes("not-configured")) return "Gli account online non sono ancora configurati. Puoi continuare senza account.";
   if (code.includes("invalid-email")) return "L'indirizzo email non sembra valido, controllalo e riprova.";
   if (code.includes("email-already-in-use")) return "Esiste già un account con questa email: prova ad accedere.";
   if (code.includes("weak-password")) return "Scegli una password di almeno 6 caratteri.";
   if (code.includes("invalid-credential") || code.includes("wrong-password") || code.includes("user-not-found")) return "Email o password non corrette.";
+  if (code.includes("account-exists-with-different-credential")) return "Questa email usa già un metodo di accesso diverso. Prova il pulsante Google oppure reimposta la password.";
   if (code.includes("too-many-requests")) return "Troppi tentativi ravvicinati: aspetta qualche minuto e riprova.";
   if (code.includes("operation-not-allowed")) return "Questo metodo di accesso non è ancora attivo in Firebase.";
   if (code.includes("network")) return "Sembra che tu sia offline: controlla la connessione e riprova.";
@@ -1891,23 +1990,13 @@ function showGate(on) {
 }
 function showGateError(msg, id = "#g-err") { $(id).textContent = msg || ""; }
 const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
-let creatingAccount = false;
-
-function paintAuthMode() {
-  if (Account.mode === "local") return;
-  $("#gate-title").textContent = creatingAccount ? "Crea il tuo account" : "Accedi a BExams";
-  $("#g-submit").textContent = creatingAccount ? "Crea account" : "Accedi";
-  $("#g-switch-text").textContent = creatingAccount ? "Hai già un account?" : "Non hai ancora un account?";
-  $("#g-switch").textContent = creatingAccount ? "Accedi" : "Registrati";
-  $("#g-password").autocomplete = creatingAccount ? "new-password" : "current-password";
-}
 
 if (Account.mode === "local") {
   $("#g-google").disabled = true;
   $("#g-google").title = "Si attiva dopo aver collegato Firebase";
-  $("#g-password").hidden = true;
+  $("#g-password-wrap").hidden = true;
   $("#g-password").required = false;
-  $("#g-switch-wrap").hidden = true;
+  $("#g-auth-help").hidden = true;
   $("#g-submit").textContent = "Entra con email";
   $("#g-local").hidden = false;
 }
@@ -1917,11 +2006,24 @@ $("#g-google").addEventListener("click", async () => {
   try { await Account.google(); } catch (e) { showGateError(explain(e)); }
 });
 
-$("#g-switch").addEventListener("click", () => {
-  creatingAccount = !creatingAccount;
+$("#g-password-toggle").addEventListener("click", () => {
+  const input = $("#g-password");
+  const showing = input.type === "text";
+  input.type = showing ? "password" : "text";
+  $("#g-password-toggle").textContent = showing ? "Mostra" : "Nascondi";
+  $("#g-password-toggle").setAttribute("aria-label", showing ? "Mostra password" : "Nascondi password");
+});
+
+$("#g-reset").addEventListener("click", async () => {
+  const email = $("#g-email").value.trim();
+  if (!validEmail(email)) { showGateError("Prima scrivi l'email dell'account da recuperare."); $("#g-email").focus(); return; }
   showGateError("");
-  paintAuthMode();
-  $("#g-email").focus();
+  const btn = $("#g-reset"); btn.disabled = true;
+  try {
+    await Account.resetPassword(email);
+    showGateError("Controlla la posta: abbiamo inviato il link per scegliere una nuova password.");
+  } catch (err) { showGateError(explain(err)); }
+  finally { btn.disabled = false; }
 });
 
 $("#g-form").addEventListener("submit", async e => {
@@ -1933,13 +2035,14 @@ $("#g-form").addEventListener("submit", async e => {
   showGateError("");
   const btn = $("#g-submit"); btn.disabled = true;
   try {
-    btn.textContent = creatingAccount ? "Creazione…" : "Accesso…";
-    await Account.email(email, password, creatingAccount);
+    btn.textContent = "Controllo…";
+    const result = await Account.email(email, password);
+    if (result === "created") toast("Account creato: benvenuto su BExams", true);
   } catch (err) { showGateError(explain(err)); }
   finally {
     btn.disabled = false;
     if (Account.mode === "local") btn.textContent = "Entra con email";
-    else paintAuthMode();
+    else btn.textContent = "Continua con email";
   }
 });
 
@@ -2398,6 +2501,64 @@ $("#dr-out").addEventListener("click", async () => {
   drawer.close();
   if (Account.isGuest) { setGate("choose"); showGate(true); $("#g-email").focus(); }
   else await Account.signOut();
+});
+
+/* =====================================================================
+   CONTRIBUISCI: file privati, visibili al proprietario del progetto
+   ===================================================================== */
+const contribute = $("#contribute");
+const MAX_CONTRIBUTION_BYTES = 4 * 1024 * 1024;
+const ALLOWED_CONTRIBUTION_FILE = /\.(pdf|zip|doc|docx|xls|xlsx|png|jpe?g)$/i;
+
+function contributionStatus(message) { $("#co-status").textContent = message || ""; }
+function openContribution() {
+  if (!Account.user || Account.isGuest || Account.isLocal) {
+    setGate("choose"); showGate(true);
+    showGateError("Per inviare un contributo accedi con Google oppure con email e password.");
+    return;
+  }
+  $("#co-form").reset();
+  contributionStatus("");
+  contribute.showModal();
+  $("#co-course").focus();
+}
+
+$("#contribute-btn").addEventListener("click", openContribution);
+$("#co-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const course = $("#co-course").value;
+  const year = $("#co-year").value;
+  const subject = $("#co-subject").value.trim();
+  const type = $("#co-type").value;
+  const note = $("#co-note").value.trim();
+  const file = $("#co-file").files[0] || null;
+
+  contributionStatus("");
+  if (!course || !year || !subject || !type) { contributionStatus("Completa corso, anno, materia e tipo di contributo."); return; }
+  if (!file && !note) { contributionStatus("Allega un file oppure scrivi almeno un'informazione utile."); return; }
+  if (file && file.size > MAX_CONTRIBUTION_BYTES) { contributionStatus("Il file supera 4 MB. Riducilo oppure invia solo le informazioni testuali."); return; }
+  if (file && !ALLOWED_CONTRIBUTION_FILE.test(file.name)) { contributionStatus("Formato non supportato. Usa PDF, ZIP, Word, Excel, PNG o JPG."); return; }
+  if (!$("#co-rights").checked) { contributionStatus("Per inviare devi confermare di poter condividere il materiale."); return; }
+
+  const submit = $("#co-submit"); submit.disabled = true; submit.textContent = "Invio…";
+  try {
+    const token = await Account.token();
+    if (!token) throw new Error("Devi accedere con un account online prima di contribuire.");
+    const metadata = { course, year, subject, type, note, fileName: file?.name || "", hasFile: !!file, rights: true };
+    const encodedMetadata = btoa(unescape(encodeURIComponent(JSON.stringify(metadata))));
+    const headers = { Authorization: `Bearer ${token}`, "X-BExams-Metadata": encodedMetadata };
+    if (file) headers["Content-Type"] = file.type || "application/octet-stream";
+    const response = await fetch("/api/contribute", { method: "POST", headers, body: file });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || "Non sono riuscito a inviare il contributo.");
+    contribute.close();
+    $("#co-form").reset();
+    toast("Contributo inviato: grazie!", true);
+  } catch (err) {
+    contributionStatus(err?.message || "Non sono riuscito a inviare il contributo. Riprova tra poco.");
+  } finally {
+    submit.disabled = false; submit.textContent = "Invia contributo";
+  }
 });
 
 /* =====================================================================

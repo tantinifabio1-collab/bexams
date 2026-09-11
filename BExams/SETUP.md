@@ -17,6 +17,7 @@ La cartella da pubblicare deve contenere direttamente:
 ```text
 index.html
 vercel.json
+package.json
 api/
 Bexams_Esami/
 ```
@@ -47,6 +48,8 @@ In **Authentication > Sign-in method**:
 2. Attiva **Email/Password**.
 3. Non è necessario attivare **Email link**.
 
+Nel sito non c'è una registrazione separata: l'utente scrive email e password e preme **Continua con email**. Se l'account esiste viene effettuato l'accesso; se è la prima volta, l'account viene creato automaticamente. Il collegamento **Password dimenticata?** invia l'email di recupero tramite Firebase.
+
 In **Authentication > Settings > Authorized domains** aggiungi soltanto il nome host del sito, senza `https://` e senza barre finali. Esempio:
 
 ```text
@@ -54,6 +57,27 @@ bexams.vercel.app
 ```
 
 Se colleghi un dominio personale, aggiungi anche quello.
+
+Per il progetto attuale aggiungi almeno:
+
+```text
+bexams.vercel.app
+www.bexams.app
+bexams.app
+```
+
+Se provi un deployment di anteprima, aggiungi anche il suo host, per esempio:
+
+```text
+bexams-npdzds26y-be-xams.vercel.app
+```
+
+Se la finestra Google si apre e poi si chiude, controlla nell'ordine:
+
+1. **Authentication > Metodo di accesso > Google**: deve risultare abilitato e deve esserci un'email di assistenza.
+2. **Authentication > Impostazioni > Domini autorizzati**: aggiungi l'host esatto che vedi nella barra del browser, senza `https://`, `/` o percorsi.
+3. In Vercel verifica che tutte le variabili Firebase siano applicate a **Production** e **Preview**, quindi esegui un nuovo **Redeploy**.
+4. Consenti i popup per il sito e riprova in una finestra anonima. Il codice usa il popup Firebase, compatibile anche con il sito ospitato su Vercel.
 
 ## 4. Crea Firestore
 
@@ -78,7 +102,7 @@ Ogni studente può così leggere e modificare soltanto il proprio documento.
 
 ## 5. Collega Firebase da Vercel
 
-In Vercel apri **Project > Settings > Environment Variables** e crea queste quattro variabili:
+In Vercel apri **Project > Settings > Environment Variables** e crea queste cinque variabili:
 
 | Nome in Vercel | Valore preso da Firebase |
 |---|---|
@@ -92,16 +116,31 @@ Applicale a **Production**, **Preview** e **Development**, poi apri **Deployment
 
 Questi sono identificativi pubblici dell'app web, non password amministrative. La protezione dei dati è affidata all'autenticazione e alle regole Firestore. Non aggiungere mai chiavi private o credenziali di service account.
 
-## 6. Prova finale
+## 6. Attiva il tasto Contribuisci
+
+I contributi vengono salvati in un archivio **Vercel Blob privato**: non diventano pubblici automaticamente e puoi controllarli prima di aggiungerli al sito. Non viene usato Firebase Storage, perché per i nuovi progetti richiede il piano Blaze.
+
+1. In Vercel apri il progetto BExams.
+2. Apri **Storage** (oppure **Database**) e premi **Create Database**.
+3. Scegli **Blob** e crea uno store **Private**.
+4. Collegalo al progetto BExams e seleziona Production, Preview e Development.
+5. Fai un nuovo **Redeploy**.
+
+Vercel aggiunge automaticamente la variabile necessaria allo store. Nel piano Hobby Blob comprende una quota gratuita; i file inviati dal sito sono limitati a 4 MB. Per vedere i contributi apri lo store Blob in Vercel e cerca la cartella `contributi/`: ogni invio contiene il file, se presente, e un `dati.json` con corso, anno, materia, note e autore.
+
+Soltanto chi ha effettuato un vero accesso Firebase con Google oppure email/password può inviare. Gli ospiti e gli accessi locali non possono caricare file.
+
+## 7. Prova finale
 
 Apri il sito Vercel in una finestra anonima e verifica:
 
 1. **Continua senza account** apre subito l'app.
-2. **Accedi > Registrati** crea un account email/password.
+2. **Continua con email** crea automaticamente un nuovo account oppure accede a uno esistente.
 3. **Continua con Google** apre la selezione dell'account.
 4. Il download di un esame usa un indirizzo `https://`.
 5. Dopo un download compare il segno rosso.
 6. Dopo logout e nuovo accesso il segno rosso ricompare sul computer e sul telefono.
+7. **Contribuisci** accetta un file o un testo e crea una nuova cartella privata nello store Blob.
 
 La raccolta `users` viene creata automaticamente al primo accesso. Non devi creare manualmente tabelle o documenti.
 
